@@ -9,7 +9,8 @@
     <main class="pt-5">
         <div class="row g-3">
             <div class="col-md-5 col-lg-5 order-md-first bg-light">
-                <img class="img-fluid mx-auto d-block" width="200px" alt="Responsive image" src="{{ product.image.url }}">
+                <img class="img-fluid mx-auto d-block" width="200px" alt="Responsive image"
+                    src="{{ product.image.url }}">
             </div>
             <div class="col-md-7 col-lg-7 ps-md-3 ps-lg-5">
                 <h1 class="mb-0 h4">{{ product.title }}</h1>
@@ -19,7 +20,7 @@
                     <div class="col border-bottom">
                         <div class="row p-3">
                             <div class="col-6">Hardback</div>
-                            <div class="col-6 text-end"><span class="h4 fw-bold">£{{ product.price }}</span></div>
+                            <div class="col-6 text-end"><span class="h4 fw-bold">${{ product.price }}</span></div>
                         </div>
                     </div>
                     <div class="col">
@@ -27,15 +28,17 @@
                             <div class="col-6">
                                 <label for="select">Qty</label>
                                 <select id="select">
-                                    <option value="">1</option>
-                                    <option value="">2</option>
-                                    <option value="">3</option>
-                                    <option value="">4</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
                                 </select>
 
                             </div>
-                            <div class="col-6 text-end"><button type="button" class="btn btn-secondary btn-sm">Add to
-                                    basket</button></div>
+                            <div class="col-6 text-end">
+                                <button id="add-button" value="{{ product.id }}" type="button"
+                                    class="btn btn-secondary btn-sm">Add to basket</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,4 +47,27 @@
     </main>
 
 </div>
+<script>
+    $(document).on('click', '#add-button', function (e) {
+        e.preventDefault();
+        // console.log($('#select option:selected').text())
+        $.ajax({
+            type: 'POST',
+            url: '{% url "basket:basket-add" %}',
+            data: {
+                product_id: $('#add-button').val(),
+                product_qty: $('#select option:selected').text(),
+                csrfmiddlewaretoken: "{{csrf_token}}",
+                action: 'post'
+            },
+            success: function (json) {
+                document.getElementById('basket-qty').innerHTML = json.qty
+                
+            },
+            error: function (xhr, err_msg, err) {
+
+            },
+        })
+    })
+</script>
 {% endblock %}
