@@ -14,7 +14,7 @@ class HomePageView(ListView):
     def get_queryset(self):
         qs = Product.products.all()
         return qs
-
+    
 
 class ProductByCategoryListView(ListView):
     template_name = 'products/categories.html'

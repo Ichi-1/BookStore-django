@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.conf import settings
 
 
 
@@ -31,7 +32,7 @@ class Product(models.Model):
         on_delete=models.CASCADE
     )
     created_by = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         related_name='product_creator',
         on_delete=models.CASCADE
     )

@@ -20,6 +20,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'store',
     'store_basket',
+    'user_account',
+
+    # 3rd party
+    'django_countries',
 ]
 
 MIDDLEWARE = [
@@ -86,9 +90,10 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATCIFILES_DIRS = [
-    os.path.join(BASE_DIR,'static')
-]
+STATCIFILES_DIRS = [BASE_DIR/'static']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+AUTH_USER_MODEL = 'user_account.CustomUser'

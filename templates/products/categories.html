@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Home{% endblock %}
+{% block title %}{{ category_name }}{% endblock %}
 {% block content %}
 
 
@@ -16,17 +16,29 @@
 
         {% for product in products %}
 
-        <div class="col">
+        <div class="col d-flex">
           <div class="card shadow-sm">
-            <a href="{{ product.get_absolute_url }}"><img class="img-fluid" alt="Responsive image" src="{{ product.image.url }}"></a>
+            <a href="{{ product.get_absolute_url }}"><img style="
+                min-height: 280px;
+                min-width: 100%;
+                object-fit: cover;
+                border-radius: 3px;
+            "
+            class="img-fluid" alt="Responsive image" src="{{ product.image.url }}"></a>
             <div class="card-body">
-              <p class="card-text">
-                <a class="text-dark text-decoration-none" href="{{ product.get_absolute_url }}">{{ product.title }}</a>
-              </p>
-              <div class="d-flex justify-content-between align-items-center">
-                <small class="text-muted">9min read</small>
+                <p class="card-text">
+                  {% if product.title|length <= 15 %}
+                  <a class="text-dark text-decoration-none" href="{{ product.get_absolute_url }}">
+                      <b>{{ product.title }}</b>
+                  </a>
+                  {% else %}
+                  <a class="text-dark text-decoration-none" href="{{ product.get_absolute_url }}"><b>{{ product.title|slice:":15" }}...</b></a>
+                  {% endif %}
+  
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">{{product.author}}</small>
+                </div>
               </div>
-            </div>
           </div>
         </div>
 
