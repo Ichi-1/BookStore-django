@@ -5,13 +5,19 @@ from django.contrib.auth.models import (
 from django.db import models
 from django_countries.fields import CountryField
 from django.utils.translation import gettext_lazy as _
+from django.core.mail import send_mail
 
 
 class CustomAccountManager(BaseUserManager):
-    def create_superuser(
-        self, 
+    """
+    Custom user model manager where email is the unique identifiers
+    for authentication instead of usernames.
+    """
+
+    def create_superuser(self, 
         email, 
-        user_name,
+        username,
+        password,
         **other_fields,
     ):
 
@@ -27,12 +33,11 @@ class CustomAccountManager(BaseUserManager):
             raise ValueError(
                 'Superuser must be assigned to is_superuser=True'
             )
+        return self.create_user(email, username, password, **other_fields)
 
-
-    def create_user(
-        self,
+    def create_user(self,
         email,
-        user_name,
+        username,
         password,
         **other_fields,
     ):
@@ -42,7 +47,7 @@ class CustomAccountManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(
             email=email, 
-            user_name=user_name, 
+            username=username, 
             **other_fields
         )
         user.set_password(password)
@@ -50,10 +55,9 @@ class CustomAccountManager(BaseUserManager):
         return user
 
 
-
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
-    user_name = models.CharField(max_length=150, unique=True)
+    username = models.CharField(max_length=150, unique=True)
     first_name = models.CharField(max_length=150, blank=True)
     about = models.TextField(_('about'), max_length=500, blank=True)
     # Delivery details
@@ -69,15 +73,24 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    # objects = CustomAccountManager()
+    objects = CustomAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['user_name']
+    REQUIRED_FIELDS = ['username']
+
 
     class Meta:
         verbose_name = 'Accounts'
         verbose_name_plural = 'Accounts'
 
+    def mail_service(self, subject, message):
+        send_mail(
+            subject=subject,
+            message=message,
+            from_email='admin@admin.com',
+            recipient_list=[self.email],
+            fail_silently=False,
+        )
 
     def __str__(self):
-        return self.user_name
+        return self.username

@@ -24,6 +24,7 @@ INSTALLED_APPS = [
 
     # 3rd party
     'django_countries',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -90,10 +91,20 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATCIFILES_DIRS = [BASE_DIR/'static']
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 AUTH_USER_MODEL = 'user_account.CustomUser'
+LOGIN_REDIRECT_URL = '/account/dashboard'
+LOGIN_URL = '/account/login'
+
+PASSWORD_RESET_TIMEOUT = 2
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
