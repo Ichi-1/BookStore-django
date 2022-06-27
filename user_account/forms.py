@@ -1,8 +1,89 @@
 from django import forms
 from django.forms import ValidationError
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import (
+    AuthenticationForm, 
+    SetPasswordForm,
+    PasswordResetForm,  
+)
 
 from .models import CustomUser
+
+
+class PasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(max_length=255, widget=forms.TextInput(
+        attrs={
+            'class':'form-control mb-3',
+            'placeholder': 'Enter your email',
+            'id':'form-email',
+        }
+    ))
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        user = CustomUser.objects.filter(email=email)
+        if not user:
+            raise ValidationError(
+                f'Sorry, we can not find {email} address'
+            )
+        return email
+
+
+class SetNewPassWordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label='New password', widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control mb-3', 
+                'placeholder': 'New Password', 
+                'id': 'form-newpass',
+            }
+        ))
+    new_password2 = forms.CharField(
+        label='Repeat password', widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control mb-3', 
+                'placeholder': 'New Password', 
+                'id': 'form-new-pass2'
+            }
+        ))
+
+
+
+    
+
+
+
+class UserAccountUpdateForm(forms.ModelForm):
+    email = forms.EmailField(
+        label='Account email (can not be changed)',
+        max_length=200,
+        widget=forms.TextInput(attrs={
+            'class':'form-contril mb3',
+            'placeholder': 'email',
+            'id':'form-email',
+            'readonly':'readonly',
+        })
+    )
+    first_name = forms.CharField(
+        label='Firstname',
+        min_length=4,
+        max_length=50,
+        widget=forms.TextInput(attrs={
+            'class':'form-contril mb3',
+            'placeholder': 'Firstname',
+            'id':'form-firstname',
+        })
+    )
+
+
+    class Meta:
+        model = CustomUser
+        fields = ('email', 'first_name')
+    
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['email'].required = True
 
 
 class SignUpForm(forms.ModelForm):
@@ -90,46 +171,12 @@ class UserLoginForm(AuthenticationForm):
 
 
 
-class UserEditForm(forms.ModelForm):
-    email = forms.EmailField(
-        label='Account email can not be changed',
-        max_length=200,
-        widget=forms.TextInput(attrs={
-            'class':'form-contril mb3',
-            'placeholder': 'email',
-            'id':'form-email',
-            'readonly':'readonly',
-        })
-    )
-    username = forms.CharField(
-        label='Username',
-        min_length=4,
-        max_length=50,
-        widget=forms.TextInput(attrs={
-            'class':'form-contril mb3',
-            'placeholder': 'username',
-            'id':'form-username',
-            'readonly':'readonly',
-        })
-    )
-    first_name = forms.CharField(
-        label='Firstname',
-        min_length=4,
-        max_length=50,
-        widget=forms.TextInput(attrs={
-            'class':'form-contril mb3',
-            'placeholder': 'Firstname',
-            'id':'form-firstname',
-            'readonly':'readonly',
-        })
-    )
 
-    class Meta:
-        model = CustomUser
-        fields = ('email', 'username', 'first_name')
-    
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['username'].required = True
-        self.fields['email'].required = True
+
+
+
+
+
+
+

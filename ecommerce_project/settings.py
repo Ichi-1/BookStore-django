@@ -102,8 +102,13 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 AUTH_USER_MODEL = 'user_account.CustomUser'
-LOGIN_REDIRECT_URL = '/account/dashboard'
+
 LOGIN_URL = '/account/login'
+LOGIN_REDIRECT_URL = '/store'
+
+
+# LOGOUT_REDIRECT_URL = '/login'
+
 
 PASSWORD_RESET_TIMEOUT = 2
 

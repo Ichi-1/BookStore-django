@@ -3,6 +3,13 @@
 {% load crispy_forms_tags  %}
 
 
+<!-- Redirect User ?? -->
+{% if request.user.is_authenticated %}
+    <script>
+        window.location.href = '{% url "user_account:dashboard" user.pk %}';
+    </script>
+{% endif %}
+
 {% block content %}
 <style>
     .container-fluid {
@@ -49,10 +56,11 @@
                                 <p class="text-center pb-3">
                                     <a href="{% url 'user_account:signup' %}">Create an account</a>
                                 </p>
+                                <p class="text-center pb-3">
+                                    <a href="{% url 'user_account:pasword_reset' %}">Forgot your password?</a>
+                                </p>
                             </form>
-                            <p class="small text-center pt-4">
-                                {% comment %} <a href="#">Forgotten Password?</a> {% endcomment %}
-                            </p>
+                            
                             <p class="small text-center">
                                 {% comment %} <a href="#">Help Center?</a> {% endcomment %}
                             </p>

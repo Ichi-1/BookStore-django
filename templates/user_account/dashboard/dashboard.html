@@ -6,11 +6,18 @@
 <main class="pt-5">
   <div class="container" style="max-width: 1000px">
     <div class="col-12">
-      <h1 class="h2">Your Dashboard</h1>
+        {% if messages %}
+            {% for message in messages %}
+            <div class="text-center alert alert-{{ message.tags }}">
+                {{ message|safe }}
+            </div>
+            {% endfor %}
+        {% endif %}
+      <h1 class="h2">Hello, {{ user.first_name }}!</h1>
     </div>
     <div class="col-12 d-flex justify-content-between">
-      <div>Manage your <b>orders</b> and personal details</div>
-      <div><a href="{% url 'user_account:update' %}">Update Profile</a></div>
+      <div>This is your dashboard. Manage your <b>orders</b> and personal details</div>
+      <div><a href="{% url 'user_account:update' user.pk %}">Update Profile</a></div>
     </div>
     <hr />
   </div>

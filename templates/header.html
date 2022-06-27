@@ -71,7 +71,8 @@
                 {% endif %}
 
                 <!-- USER ACCOUNT -->
-                <a type="button" role="button" href="{% url 'user_account:dashboard' %}" class="btn btn-outline-secondary border-0 basket-btn">
+                {% if user.is_authenticated %}
+                <a type="button" role="button" href="{% url 'user_account:dashboard' user.pk %}" class="btn btn-outline-secondary border-0 basket-btn">
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                             class="bi bi-person" viewBox="0 0 16 16">
@@ -81,6 +82,7 @@
                     </div>
                     <span class="fs15 fw500">Account</span>
                 </a>
+                {% endif %}
 
                 <!-- ENTIRE BASKET -->
                 <div id="basket">

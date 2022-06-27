@@ -1,28 +1,32 @@
-from django.urls import reverse
-from django.shortcuts import redirect, render
-from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views.generic import CreateView, UpdateView
-from django.template.loader import render_to_string
+from email import message
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.shortcuts import get_current_site
 
-from django.http import HttpResponse
+from django.urls import reverse
+from django.template.loader import render_to_string
+from django.shortcuts import redirect, render, get_object_or_404
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.views.generic import (
+    CreateView,
+    DetailView, DeleteView, 
+    UpdateView, 
+) 
 
-from .forms import SignUpForm, UserEditForm
+from user_account.models import CustomUser
+from .forms import SignUpForm, UserAccountUpdateForm
 from .mixins import PreventSingUpMixin
 from .token import token_service
-from user_account.models import CustomUser
-
 
 
 class SignUpView(PreventSingUpMixin, CreateView):
-    template_name = 'user_account/signup.html'
+    template_name = 'user_account/registration/signup.html'
     form_class = SignUpForm
-    
-    
+
     def form_valid(self, form):
         user = form.save(commit=False)
         
@@ -50,19 +54,50 @@ class SignUpView(PreventSingUpMixin, CreateView):
         return reverse('user_account:dashboard')
 
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
-    template_name = 'user_account/update.html'
-    form_class = UserEditForm
-
-    def get_queryset(self):
-        user = self.request.user
-        return user
+class UserDashboardView(LoginRequiredMixin, DetailView):
+    model = CustomUser
+    template_name = 'user_account/dashboard/dashboard.html'
+    context_object_name = 'user'
 
 
-    def form_valid(self, form):
-        form.save()
-        return super(self, UserUpdateView).form_valid(form)
+class UserAccountUpdateView(
+        LoginRequiredMixin, 
+        SuccessMessageMixin, 
+        UpdateView
+    ):
 
+    model = CustomUser
+    form_class = UserAccountUpdateForm
+    template_name = 'user_account/dashboard/update.html'
+    success_message = 'Profile Data Successfuly Updated'
+    
+    def get_success_url(self):
+        return reverse('user_account:dashboard', kwargs={'pk': self.object.pk})
+
+
+# class UserAccountDeactivateView(
+#         LoginRequiredMixin, 
+#         SuccessMessageMixin, 
+#         DeleteView
+#     ):
+
+#     model = CustomUser
+#     template_name = 'user_account/delete.html'
+#     success_message = 'Profile Data Successfuly Deactivated'
+
+
+#     def form_valid(self, form):
+#         pass
+
+
+@login_required
+def account_deactivate(request):
+    user = CustomUser.objects.get(username=request.user)
+    user.is_active = False
+    user.save()
+    logout(request)
+    # messages.info(request, 'Account successfuly deactivated')
+    return redirect('user_account:deactivate_confirm')
 
 
 def account_activate(request, uidb64, token):
@@ -77,12 +112,3 @@ def account_activate(request, uidb64, token):
         return redirect('user_account:dashboard')
     else:
         return render(request, 'user_account/activation_invalid.html')
-
-
-
-@login_required
-def dashboard(request):
-    return render(request, 'user_account/dashboard.html')
-
-
-
