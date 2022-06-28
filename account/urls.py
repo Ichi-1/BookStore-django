@@ -24,11 +24,10 @@ urlpatterns = [
     path('signup/', SignUpView.as_view(), name='signup'),
     path('activate/<slug:uidb64>/<slug:token>/', account_activate, name='activate'),
     path('success', SuccessView.as_view(), name='success'),
-    path('logout/', LogoutView.as_view(next_page='account:login'), name='logout'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('login/', LoginView.as_view(
         template_name='account/registration/login.html', 
-        form_class=UserLoginForm,
-        redirect_authenticated_user=True), 
+        form_class=UserLoginForm), 
         name='login',
         
     ),
@@ -38,7 +37,7 @@ urlpatterns = [
     path('update/<int:pk>', UserAccountUpdateView.as_view(), name='update'),
     path('deactivate/', account_deactivate, name='deactivate'),
     path('deactivate_confirm/', TemplateView.as_view(
-        template_name='user_account/deactivate_confirm.html'), 
+        template_name='account/deactivate_confirm.html'), 
         name='deactivate_confirm'
     ),
 

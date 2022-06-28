@@ -68,12 +68,12 @@ class UserAccountUpdateView(
 
 @login_required
 def account_deactivate(request):
-    user = CustomUser.objects.get(username=request.user)
+    user = CustomUser.objects.get(user_name=request.user)
     user.is_active = False
     user.save()
     logout(request)
     # messages.info(request, 'Account successfuly deactivated')
-    return redirect('user_account:deactivate_confirm')
+    return redirect('account:deactivate_confirm')
 
 
 def account_activate(request, uidb64, token):
