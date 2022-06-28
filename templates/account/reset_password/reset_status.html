@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "../../store/base.html" %}
 {% block title %} Reset Status {% endblock %}
 
 
@@ -34,7 +34,7 @@
                                 {% endif%}
                                 {% if 'complete' in request.get_full_path %}
                                         <h3 class="mb-4">Password Reset Success</h3>
-                                        <a href="{% url 'user_account:login' %}">Login</a>
+                                        <a href="{% url 'account:login' %}">Login</a>
                                 {% endif%}
                             </div>       
                         </div>

@@ -14,44 +14,41 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 
+class PwdResetForm(PasswordResetForm):
 
-class PasswordResetForm(PasswordResetForm):
-    email = forms.EmailField(max_length=255, widget=forms.TextInput(
-        attrs={
-            'class':'form-control mb-3',
-            'placeholder': 'Enter your email',
-            'id':'form-email',
+    email = forms.EmailField(
+        max_length=254, 
+        widget=forms.TextInput(attrs={
+            'class': 'form-control mb-3', 
+            'placeholder': 'Email', 
+            'id': 'form-email'
         }
     ))
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        user = CustomUser.objects.filter(email=email)
-        if not user:
-            raise ValidationError(
-                f'Sorry, we can not find {email} address'
-            )
+        u = CustomUser.objects.filter(email=email)
+        if not u:
+            raise forms.ValidationError('Unfortunatley we can not find that email address')
         return email
 
 
-class SetNewPassWordForm(SetPasswordForm):
+class PwdResetConfirmForm(SetPasswordForm):
     new_password1 = forms.CharField(
-        label='New password', widget=forms.PasswordInput(
-            attrs={
-                'class': 'form-control mb-3', 
-                'placeholder': 'New Password', 
-                'id': 'form-newpass',
-            }
-        ))
+        label='New password', 
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control mb-3', 
+            'placeholder': 'New Password', 
+            'id': 'form-newpass'
+        }
+    ))
     new_password2 = forms.CharField(
-        label='Repeat password', widget=forms.PasswordInput(
-            attrs={
-                'class': 'form-control mb-3', 
-                'placeholder': 'New Password', 
-                'id': 'form-new-pass2'
-            }
-        ))
-
+        label='Repeat password', widget=forms.PasswordInput(attrs={
+            'class': 'form-control mb-3', 
+            'placeholder': 'New Password',
+            'id': 'form-new-pass2',
+        }
+    ))
 
 
 class UserAccountUpdateForm(forms.ModelForm):
