@@ -2,27 +2,26 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.sites.shortcuts import get_current_site
 
 from django.urls import reverse
-from django.template.loader import render_to_string
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.http import urlsafe_base64_decode
 from django.views.generic import (
     CreateView,
     DetailView,  
     UpdateView, 
+    TemplateView
 ) 
 
 from account.models import CustomUser
 from .forms import SignUpForm, UserAccountUpdateForm
 from .mixins import PreventSingUpMixin
-from .token import token_service
+from .token import token_generator
 
 
 class SignUpView(PreventSingUpMixin, CreateView):
-    template_name = 'user_account/registration/signup.html'
+    template_name = 'account/registration/signup.html'
     form_class = SignUpForm
 
     def form_valid(self, form):
@@ -31,12 +30,16 @@ class SignUpView(PreventSingUpMixin, CreateView):
         user.set_password(form.cleaned_data['password'])
         user.is_active = False 
         user.save()
-        
+        form.send_activation_email(self.request, user)
         return super(SignUpView, self).form_valid(form)
 
 
     def get_success_url(self):
         return reverse('user_account:dashboard')
+
+
+class SuccessView(TemplateView):
+    template_name = 'users/success.html'
 
 
 class UserDashboardView(LoginRequiredMixin, DetailView):
@@ -72,3 +75,16 @@ def account_deactivate(request):
     return redirect('user_account:deactivate_confirm')
 
 
+def account_activate(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = CustomUser.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, user.DoesNotExist):
+        user = None
+    if user is not None and token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        return redirect('account:dashboard')
+    else:
+        return render(request, 'account/registration/activation_invalid.html')

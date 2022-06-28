@@ -16,7 +16,7 @@ from .views import (
 )
 
 
-app_name = 'user_account'
+app_name = 'account'
 
 urlpatterns = [
     # registration and login/logour resoureces
@@ -24,7 +24,7 @@ urlpatterns = [
     path('activate/<slug:uidb64>/<slug:token>/', account_activate, name='activate'),
     path('logout/', LogoutView.as_view(next_page='user_account:login'), name='logout'),
     path('login/', LoginView.as_view(
-        template_name='user_account/registration/login.html', 
+        template_name='account/registration/login.html', 
         form_class=UserLoginForm,
         redirect_authenticated_user=True), 
         name='login',

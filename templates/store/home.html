@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "../store/base.html" %}
 {% block title %}BookStore{% endblock %}
 
 {% block content %}
@@ -11,7 +11,7 @@
         <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator,
           etc. Make it short and sweet, but not too short so folks do not simply skip over it entirely.</p>
         <p>
-          <a href="{% url 'user_account:signup' %}" class="btn btn-primary my-2">Make an account</a>
+          <a href="{% url 'account:signup' %}" class="btn btn-primary my-2">Make an account</a>
         </p>
       </div>
     </div>

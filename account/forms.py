@@ -89,68 +89,59 @@ class UserAccountUpdateForm(forms.ModelForm):
 
 
 class SignUpForm(forms.ModelForm):
-    username = forms.CharField(
-        label='Enter Username',
-        min_length=5,
-        max_length=50,
+    user_name = forms.CharField(
+        label='Enter Username', 
+        min_length=4, max_length=50, 
+        help_text='Required'
     )
     email = forms.EmailField(
-        max_length=100,
-        error_messages={'required': 'Email is required to sign up'}
+        max_length=100, 
+        help_text='Required', 
+        error_messages={'required': 'Sorry, you will need an email'}
     )
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
+    password = forms.CharField(
+        label='Password', 
+        widget=forms.PasswordInput
+    )
+    password2 = forms.CharField(
+        label='Repeat password', 
+        widget=forms.PasswordInput
+    )
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'email')
+        fields = ('user_name', 'email',)
 
-
-    def clean_username(self):
-        username = self.cleaned_data['username'].lower()
-        r = CustomUser.objects.filter(username=username)
+    def clean_user_name(self):
+        user_name = self.cleaned_data['user_name'].lower()
+        r = CustomUser.objects.filter(user_name=user_name)
         if r.count():
-            raise ValidationError("Username already exists")
-        return username
-
-
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        if CustomUser.objects.filter(email=email).exists():
-            raise ValidationError('Please use another Email, that is already taken')
-        return email
-
+            raise forms.ValidationError("Username already exists")
+        return user_name
 
     def clean_password2(self):
         cd = self.cleaned_data
         if cd['password'] != cd['password2']:
-            raise ValidationError('Passwords do not match.')
+            raise forms.ValidationError('Passwords do not match.')
         return cd['password2']
 
-
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if CustomUser.objects.filter(email=email).exists():
+            raise forms.ValidationError(
+                'Please use another Email, that is already taken')
+        return email
 
     def __init__(self, *args, **kwargs):
-
         super().__init__(*args, **kwargs)
-
-        self.fields['username'].widget.attrs.update({
-            'class': 'form-control mb-3', 
-            'placeholder': 'Username'
-        })
-        self.fields['email'].widget.attrs.update({
-            'class': 'form-control mb-3', 
-            'placeholder': 'E-mail', 
-            'name': 'email', 
-            'id': 'id_email'
-        })
-        self.fields['password'].widget.attrs.update({
-            'class': 'form-control mb-3',
-            'placeholder': 'Password'
-        })
-        self.fields['password2'].widget.attrs.update({
-            'class': 'form-control', 
-            'placeholder': 'Repeat Password'
-        })
+        self.fields['user_name'].widget.attrs.update(
+            {'class': 'form-control mb-3', 'placeholder': 'Username'})
+        self.fields['email'].widget.attrs.update(
+            {'class': 'form-control mb-3', 'placeholder': 'E-mail', 'name': 'email', 'id': 'id_email'})
+        self.fields['password'].widget.attrs.update(
+            {'class': 'form-control mb-3', 'placeholder': 'Password'})
+        self.fields['password2'].widget.attrs.update(
+            {'class': 'form-control', 'placeholder': 'Repeat Password'})
 
     def send_activation_email(self, request, user):
         current_site = get_current_site(request)

@@ -101,7 +101,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
-AUTH_USER_MODEL = 'user_account.CustomUser'
+AUTH_USER_MODEL = 'account.CustomUser'
 
 LOGIN_URL = '/account/login'
 LOGIN_REDIRECT_URL = '/store'

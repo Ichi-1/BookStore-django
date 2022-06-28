@@ -16,7 +16,7 @@ class CustomAccountManager(BaseUserManager):
 
     def create_superuser(self, 
         email, 
-        username,
+        user_name,
         password,
         **other_fields,
     ):
@@ -33,11 +33,11 @@ class CustomAccountManager(BaseUserManager):
             raise ValueError(
                 'Superuser must be assigned to is_superuser=True'
             )
-        return self.create_user(email, username, password, **other_fields)
+        return self.create_user(email, user_name, password, **other_fields)
 
     def create_user(self,
         email,
-        username,
+        user_name,
         password,
         **other_fields,
     ):
@@ -47,7 +47,7 @@ class CustomAccountManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(
             email=email, 
-            username=username, 
+            user_name=user_name, 
             **other_fields
         )
         user.set_password(password)
@@ -57,7 +57,7 @@ class CustomAccountManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
-    username = models.CharField(max_length=150, unique=True)
+    user_name = models.CharField(max_length=150, unique=True)
     first_name = models.CharField(max_length=150, blank=True)
     about = models.TextField(_('about'), max_length=500, blank=True)
     # Delivery details
@@ -76,7 +76,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     objects = CustomAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['user_name']
 
 
     class Meta:
