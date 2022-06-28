@@ -83,7 +83,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'Accounts'
         verbose_name_plural = 'Accounts'
 
-    def mail_service(self, subject, message):
+    def email_user(self, subject, message):
         send_mail(
             subject=subject,
             message=message,
@@ -93,4 +93,4 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         )
 
     def __str__(self):
-        return self.username
+        return self.user_name

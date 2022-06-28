@@ -20,9 +20,10 @@ from .mixins import PreventSingUpMixin
 from .token import token_generator
 
 
-class SignUpView(PreventSingUpMixin, CreateView):
+class SignUpView(SuccessMessageMixin, PreventSingUpMixin, CreateView):
     template_name = 'account/registration/signup.html'
     form_class = SignUpForm
+    success_message = 'Your account was created successfully. Activation link sended'
 
     def form_valid(self, form):
         user = form.save(commit=False)    
@@ -35,16 +36,16 @@ class SignUpView(PreventSingUpMixin, CreateView):
 
 
     def get_success_url(self):
-        return reverse('user_account:dashboard')
+        return reverse('account:login')
 
 
 class SuccessView(TemplateView):
-    template_name = 'users/success.html'
+    template_name = 'account/registration/success.html'
 
 
 class UserDashboardView(LoginRequiredMixin, DetailView):
     model = CustomUser
-    template_name = 'user_account/dashboard/dashboard.html'
+    template_name = 'account/dashboard/dashboard.html'
     context_object_name = 'user'
 
 
@@ -56,11 +57,11 @@ class UserAccountUpdateView(
 
     model = CustomUser
     form_class = UserAccountUpdateForm
-    template_name = 'user_account/dashboard/update.html'
+    template_name = 'account/dashboard/update.html'
     success_message = 'Profile Data Successfuly Updated'
     
     def get_success_url(self):
-        return reverse('user_account:dashboard', kwargs={'pk': self.object.pk})
+        return reverse('account:dashboard', kwargs={'pk': self.object.pk})
 
 
 
@@ -85,6 +86,6 @@ def account_activate(request, uidb64, token):
         user.is_active = True
         user.save()
         login(request, user)
-        return redirect('account:dashboard')
+        return redirect('account:success')
     else:
         return render(request, 'account/registration/activation_invalid.html')

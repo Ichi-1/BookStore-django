@@ -147,7 +147,7 @@ class SignUpForm(forms.ModelForm):
         current_site = get_current_site(request)
         subject = 'Activate Your Account'
         message = render_to_string(
-            'users/activate_account.html',
+            'account/registration/account_activation_link.html',
             {
                 'user': user,
                 'domain': current_site.domain,
@@ -156,7 +156,7 @@ class SignUpForm(forms.ModelForm):
             }
         )
 
-        user.email_user(subject, message, html_message=message)
+        user.email_user(subject, message)
 
 
 class UserLoginForm(AuthenticationForm):

@@ -1,4 +1,4 @@
-{% extends "base.html" %} 
+{% extends "../../store/base.html" %}
 {% load static %} 
 {% block title %}Basket Summary{%endblock %} 
 
@@ -17,7 +17,7 @@
     </div>
     <div class="col-12 d-flex justify-content-between">
       <div>This is your dashboard. Manage your <b>orders</b> and personal details</div>
-      <div><a href="{% url 'user_account:update' user.pk %}">Update Profile</a></div>
+      <div><a href="{% url 'account:update' user.pk %}">Update Profile</a></div>
     </div>
     <hr />
   </div>

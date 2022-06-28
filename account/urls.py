@@ -9,6 +9,7 @@ from .forms import (
     UserLoginForm, 
 )
 from .views import (
+    SuccessView,
     account_activate, 
     account_deactivate,
     SignUpView, UserAccountUpdateView,
@@ -22,7 +23,8 @@ urlpatterns = [
     # registration and login/logour resoureces
     path('signup/', SignUpView.as_view(), name='signup'),
     path('activate/<slug:uidb64>/<slug:token>/', account_activate, name='activate'),
-    path('logout/', LogoutView.as_view(next_page='user_account:login'), name='logout'),
+    path('success', SuccessView.as_view(), name='success'),
+    path('logout/', LogoutView.as_view(next_page='account:login'), name='logout'),
     path('login/', LoginView.as_view(
         template_name='account/registration/login.html', 
         form_class=UserLoginForm,
