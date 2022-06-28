@@ -4,13 +4,9 @@ from django.views.generic import TemplateView
 from django.contrib.auth.views import (
     LoginView, 
     LogoutView, 
-    PasswordResetView,
-    PasswordResetConfirmView,
 )
 from .forms import (
     UserLoginForm, 
-    SetNewPassWordForm,
-    PasswordResetForm,
 )
 from .views import (
     account_activate, 
@@ -44,27 +40,4 @@ urlpatterns = [
         name='deactivate_confirm'
     ),
 
-    # password reset
-    path('password_reset/', 
-        PasswordResetView.as_view(
-            form_class=PasswordResetForm,
-            template_name='user_account/reset_password/password_reset_form.html',
-            success_url='password_reset_email_confirm',
-            email_template_name='user_account/reset_password/password_reset_email.html'), 
-        name='pasword_reset'
-    ),
-    
-    path('password_reset/password_reset_email_confirm/', 
-        TemplateView.as_view(
-            template_name='user_account/reset_password/reset_status.html'),
-        name='password_reset_done',
-    ),
-
-
-    path('password_reset_confirm/<uidb64>/<token>', 
-        PasswordResetConfirmView.as_view(
-            template_name='user_account/reset_password/password_reset_confirm.html',
-            success_url='/account/password_reset_complete/', 
-            form_class=SetNewPassWordForm),
-        name="password_reset_confirm"),
 ]

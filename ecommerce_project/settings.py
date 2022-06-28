@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'store',
     'store_basket',
-    'user_account',
+    'account',
 
     # 3rd party
     'django_countries',
@@ -107,9 +107,8 @@ LOGIN_URL = '/account/login'
 LOGIN_REDIRECT_URL = '/store'
 
 
-# LOGOUT_REDIRECT_URL = '/login'
+LOGOUT_REDIRECT_URL = '/login'
 
 
-PASSWORD_RESET_TIMEOUT = 2
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

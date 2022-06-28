@@ -7,6 +7,12 @@ from django.contrib.auth.forms import (
 )
 
 from .models import CustomUser
+from django.contrib.sites.shortcuts import get_current_site
+from .token import token_generator
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+
 
 
 class PasswordResetForm(PasswordResetForm):
@@ -45,10 +51,6 @@ class SetNewPassWordForm(SetPasswordForm):
                 'id': 'form-new-pass2'
             }
         ))
-
-
-
-    
 
 
 
@@ -149,6 +151,21 @@ class SignUpForm(forms.ModelForm):
             'class': 'form-control', 
             'placeholder': 'Repeat Password'
         })
+
+    def send_activation_email(self, request, user):
+        current_site = get_current_site(request)
+        subject = 'Activate Your Account'
+        message = render_to_string(
+            'users/activate_account.html',
+            {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': token_generator.make_token(user),
+            }
+        )
+
+        user.email_user(subject, message, html_message=message)
 
 
 class UserLoginForm(AuthenticationForm):
