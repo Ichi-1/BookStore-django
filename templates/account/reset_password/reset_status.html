@@ -4,6 +4,11 @@
 
 
 {% block content %}
+{% if request.user.is_authenticated %}
+    <script>
+        window.location.href = '{% url "account:dashboard" user.pk %}';
+    </script>
+{% endif %} 
 <style>
     .container-fluid {
         max-width: 100%;
@@ -29,7 +34,7 @@
                         <div class="col-12 col-lg-6  mx-auto">
                             <div class="p-4">
                                 {% if 'email' in request.get_full_path %}
-                                        <h3 class="mb-4">Password Reset Success</h3>
+                                        <h3 class="mb-4 fw-bold">Password Reset Success</h3>
                                         <p>Check your email for instructions</p>
                                 {% endif%}
                                 {% if 'complete' in request.get_full_path %}

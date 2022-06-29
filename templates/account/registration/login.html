@@ -45,7 +45,7 @@
                             <form class="account-form p-4 rounded" action="{% url 'account:login' %}" method="post">
 
                                 {% csrf_token %}
-                                <h3 class="mb-4">Sign In</h3>
+                                <h3 class="mb-4 fw-bold">Sign In</h3>
 
                                 {% if form.errors %}
                                 <div class="alert alert-primary" role="alert">
@@ -65,7 +65,7 @@
                                     <a href="{% url 'account:signup' %}">Create an account</a>
                                 </p>
                                 <p class="text-center pb-3">
-                                    <a href="{% url 'account:reset_password' %}">Forgot your password?</a>
+                                    <a href="{% url 'account:password_reset' %}">Forgot your password?</a>
                                 </p>
                             </form>
 
