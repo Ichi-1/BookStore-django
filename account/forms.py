@@ -1,5 +1,4 @@
 from django import forms
-from django.forms import ValidationError
 from django.contrib.auth.forms import (
     AuthenticationForm, 
     SetPasswordForm,
@@ -10,8 +9,8 @@ from .models import CustomUser
 from django.contrib.sites.shortcuts import get_current_site
 from .token import token_generator
 from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 
 
 class PwdResetForm(PasswordResetForm):
@@ -135,11 +134,12 @@ class SignUpForm(forms.ModelForm):
         self.fields['user_name'].widget.attrs.update(
             {'class': 'form-control mb-3', 'placeholder': 'Username'})
         self.fields['email'].widget.attrs.update(
-            {'class': 'form-control mb-3', 'placeholder': 'E-mail', 'name': 'email', 'id': 'id_email'})
+            {'class': 'form-control mb-3', 'placeholder': 'Email', 'name': 'email', 'id': 'id_email'})
         self.fields['password'].widget.attrs.update(
             {'class': 'form-control mb-3', 'placeholder': 'Password'})
         self.fields['password2'].widget.attrs.update(
             {'class': 'form-control', 'placeholder': 'Repeat Password'})
+
 
     def send_activation_email(self, request, user):
         current_site = get_current_site(request)
@@ -153,7 +153,6 @@ class SignUpForm(forms.ModelForm):
                 'token': token_generator.make_token(user),
             }
         )
-
         user.email_user(subject, message)
 
 

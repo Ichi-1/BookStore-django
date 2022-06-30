@@ -1,14 +1,8 @@
-{% extends "../../store/base.html" %}
-{% block title %} Reset Status {% endblock %}
-
+{% extends "../store/base.html" %}
+{% block title %}Order Placed{% endblock %}
 
 
 {% block content %}
-{% if not request.user.is_authenticated %}
-<script>
-    window.location.href = '{% url "store:home" %}';
-</script>
-{% endif %}
 <style>
     .container-fluid {
         max-width: 100%;
@@ -31,10 +25,13 @@
             <div class="login d-flex align-items-center py-5">
                 <div class="container">
                     <div class="row">
-                        <div class="col-12 col-lg-6  mx-auto"> 
-                            <!-- TODO Success messages not working -->
-                            <h3 class="mb-4 fw-bold">Congratulations!</h3>  
-                            <p>Your account is activated </p>
+                        <div class="col-12 col-lg-6  mx-auto">
+                            <div class="p-4">
+                                <!-- TODO Mail confirmation view -->
+                                <h3 class="mb-4">Order has been placed</h3>
+                                <p>Check your email for confirmation</p>
+                                <a href="{% url 'account:dashboard' user.pk %}">See orders</a>
+                            </div>       
                         </div>
                     </div>
                 </div>

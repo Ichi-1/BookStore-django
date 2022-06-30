@@ -21,6 +21,8 @@ INSTALLED_APPS = [
     'store',
     'store_basket',
     'account',
+    'payment',
+    'orders',
 
     # 3rd party
     'django_countries',
@@ -108,3 +110,5 @@ LOGOUT_REDIRECT_URL = LOGIN_URL
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+STRIPE_ENDPOINT_SECRET = config('STRIPE_ENDPOINT_SECRET')

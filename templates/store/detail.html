@@ -37,7 +37,7 @@
                             </div>
                             <div class="col-6 text-end">
                                 <button id="add-button" value="{{ product.id }}" type="button"
-                                    class="btn btn-secondary btn-sm">Add to basket</button>
+                                    class="btn btn-success fw500">Add to basket</button>
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
             },
             success: function (json) {
                 document.getElementById('basket-qty').innerHTML = json.qty
-                
+
             },
             error: function (xhr, err_msg, err) {
 

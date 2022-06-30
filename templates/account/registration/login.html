@@ -1,12 +1,12 @@
 {% extends "../../store/base.html" %}
-{% block title %}Log-in{% endblock %}
+{% block title %}Log In{% endblock %}
 {% load crispy_forms_tags  %}
 
 
 <!-- Redirect User ?? -->
 {% if request.user.is_authenticated %}
 <script>
-    window.location.href = '{% url "account:dashboard" user.pk %}';
+    window.location.href = '{% url "account:dashboard" %}';
 </script>
 {% endif %}
 
@@ -35,13 +35,13 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12 col-lg-6  mx-auto">
-                            {% if messages %}
+                            <!-- {% if messages %}
                             {% for message in messages %}
                             <div class="text-center alert alert-{{ message.tags }}">
                                 {{ message|safe }}
                             </div>
                             {% endfor %}
-                            {% endif %}
+                            {% endif %} -->
                             <form class="account-form p-4 rounded" action="{% url 'account:login' %}" method="post">
 
                                 {% csrf_token %}

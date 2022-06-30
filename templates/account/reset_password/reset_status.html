@@ -6,7 +6,7 @@
 {% block content %}
 {% if request.user.is_authenticated %}
     <script>
-        window.location.href = '{% url "account:dashboard" user.pk %}';
+        window.location.href = '{% url "account:dashboard" %}';
     </script>
 {% endif %} 
 <style>

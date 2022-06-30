@@ -22,9 +22,21 @@
     {% include '../store/header.html' %}
 
     <div id="content">
+        <div class="col-12">
+            <div class="mx-auto" style="max-width: 500px">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="text-center alert alert-{{ message.tags }}">
+                {{ message|safe }}
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
         {% block content %}
-        
+
         {% endblock %}
+
     </div>
 
     {% include '../store/footer.html' %}
