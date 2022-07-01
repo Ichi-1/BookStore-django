@@ -54,11 +54,11 @@ class AccountActivateView(RedirectView):
             login(request, user)
             return super().get(request, uidb64, token)
         else:
-            return render(request, 'account/registration/activation_invalid.html')
+            return render(request, 'account/registration/activation_failed.html')
 
 
 class SuccessView(TemplateView):
-    template_name = 'account/registration/success.html'
+    template_name = 'account/registration/activation_success.html'
 
 
 class UserDashboardView(LoginRequiredMixin, ListView):
@@ -87,9 +87,7 @@ class UserAccountUpdateView(
     success_message = 'Profile Data Successfuly Updated'
     
     def get_success_url(self):
-        return reverse('account:dashboard')
-
-
+        return reverse('account:update', kwargs={'pk':self.object.pk})
 
 
 
@@ -103,4 +101,3 @@ def account_deactivate(request):
     logout(request)
     # messages.info(request, 'Account successfuly deactivated')
     return redirect('account:deactivate_confirm')
-

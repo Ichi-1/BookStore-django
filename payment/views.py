@@ -1,8 +1,10 @@
+import os
 import json
 import stripe
-from decouple import config
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
@@ -16,14 +18,18 @@ def BasketView(request):
     # parse decimal
     total = int(str(basket.get_total_price()).replace('.', '')) 
 
-    stripe.api_key = config('STRIPE_SECRET_KEY')
+    stripe.api_key = settings.STRIPE_SECRET_KEY
     intent = stripe.PaymentIntent.create(
         amount=total,
         currency='usd',
         metadata={'userid': request.user.id}
     )
-
-    return render(request, 'payment/home.html', {'client_secret': intent.client_secret})
+    return render(request, 
+        'payment/payment_form.html', {
+            'client_secret': intent.client_secret, 
+            'STRIPE_PUBLICK_KEY' : os.environ.get('STRIPE_PUBLICK_KEY'),
+        }
+    )
 
 
 @csrf_exempt
@@ -54,3 +60,7 @@ def order_placed(request):
     basket.clear()
 
     return render(request, 'payment/orderplaced.html')
+
+
+class ErrorView(TemplateView):
+    template_name = 'payment/error.html'

@@ -56,7 +56,7 @@ class UserAccountUpdateForm(forms.ModelForm):
         label='Account email (can not be changed)',
         max_length=200,
         widget=forms.TextInput(attrs={
-            'class':'form-contril mb3',
+            'class':'form-contril mb-3',
             'placeholder': 'email',
             'id':'form-email',
             'readonly':'readonly',
@@ -67,7 +67,7 @@ class UserAccountUpdateForm(forms.ModelForm):
         min_length=4,
         max_length=50,
         widget=forms.TextInput(attrs={
-            'class':'form-contril mb3',
+            'class':'form-contril mb-3',
             'placeholder': 'Firstname',
             'id':'form-firstname',
         })
@@ -76,7 +76,7 @@ class UserAccountUpdateForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'first_name')
+        fields = ('email', 'first_name', 'phone_number',)
     
 
     def __init__(self, *args, **kwargs):
@@ -88,12 +88,11 @@ class UserAccountUpdateForm(forms.ModelForm):
 class SignUpForm(forms.ModelForm):
     user_name = forms.CharField(
         label='Enter Username', 
-        min_length=4, max_length=50, 
-        help_text='Required'
+        min_length=4, 
+        max_length=50, 
     )
     email = forms.EmailField(
         max_length=100, 
-        help_text='Required', 
         error_messages={'required': 'Sorry, you will need an email'}
     )
     password = forms.CharField(

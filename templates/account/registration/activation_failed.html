@@ -1,0 +1,16 @@
+{% extends "../sub_base.html" %}
+{% block title %} Oops! {% endblock %}
+
+
+{% block content %}
+{% if not request.user.is_authenticated %}
+<script>
+  window.location.href = '{% url "store:home" %}';
+</script>
+{% endif %}
+<div class="container">
+<!-- TODO Django Success messages not working -->
+<h3 class="mb-4 fw-bold">Oops!</h3>
+<p>Activation was failed. Please, try again later</p>
+</div>
+{% endblock %}

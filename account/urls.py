@@ -33,8 +33,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(
             template_name='account/registration/login.html', 
             form_class=UserLoginForm
-        ), 
-        name='login',
+        ),  name='login',
     ),
     
     # dashboard resources
@@ -42,8 +41,8 @@ urlpatterns = [
     path('update/<int:pk>', UserAccountUpdateView.as_view(), name='update'),
     path('deactivate/', account_deactivate, name='deactivate'),
     path('deactivate_confirm/', TemplateView.as_view(
-            template_name='account/deactivate_confirm.html'), 
-        name='deactivate_confirm'
+            template_name='account/dashboard/deactivate_confirm.html'
+        ),  name='deactivate_confirm'
     ),
 
 
@@ -55,25 +54,21 @@ urlpatterns = [
             success_url='password_reset_email_confirm',
             email_template_name='account/reset_password/sent_email.html',
             form_class=PwdResetForm 
-        ), 
-        name='password_reset'
+        ),  name='password_reset'
     ),
     path('password_reset_confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(
             template_name='account/reset_password/confirm_form.html',
             success_url='complete',
             form_class=PwdResetConfirmForm,
-        ), 
-        name='password_reset_confirm'
+        ),  name='password_reset_confirm'
     ),
     path('password_reset/password_reset_email_confirm/', TemplateView.as_view(
             template_name='account/reset_password/reset_status.html',
-        ),
-        name='password_reset_done'
+        ),  name='password_reset_done'
     ),
     path('password_reset_confirm/<uidb64>/set-password/complete', TemplateView.as_view(
             template_name='account/reset_password/reset_status.html',
-        ),
-        name='password_reset_complete'
+        ),  name='password_reset_complete'
     )
 
 ]

@@ -1,55 +1,25 @@
-{% extends "../../store/base.html" %}
-{% block title %}Update Account{% endblock %}
+{% extends "../sub_base.html" %}
+{% block title %}Update Account Info{% endblock %}
 
 {% load crispy_forms_tags  %}
 
-{% block content %}
-<style>
-    .account-form input {
-        border: 2px solid #ccc;
-        height: calc(2em + .75rem + 2px);
-    }
+{% block sub_content %}
+<h3 class="mb-3 fw-bold">Enter new data and save changes</h3>
+<form method="POST" lass="account-form px-4 pt-4" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form|crispy }}
+  <button class="btn btn-primary btn-block py-2 mb-4 mt-5 fw-bold w-100" type="submit" value="Save changes">
+    Save Changes
+  </button>
+</form>
 
-    .account-form input:focus {
-        border-color: #1497ff;
-        box-shadow: none;
-    }
-</style>
+<hr>
 
-<div class="container-fluid">
-    <div class="row no-gutter">
-        <div class="col-md-12">
-            <div class="login d-flex align-items-center py-5">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 col-lg-7  mx-auto">
+<form class="account-form px-4" action="{% url 'account:deactivate' %}" method="post">
+  {% csrf_token %}
+  <p class=" h3 pt-4 font-weight-bold">Deactivate Account</p>
+  <p>Are you sure you want to deactivate your account?</p>
+  <button type="submit" role="button" class="btn btn-danger btn-block py-2 mb-4 mt-5 fw-bold w-100">Deactivate</button>
+</form>
 
-                            <h1 class="h2 mb-3">Enter new data and save changes</h1>
-                            <form method="POST" lass="account-form px-4 pt-4" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                {{ form|crispy }}
-                                <button class="btn btn-primary btn-block py-2 mb-4 mt-5 fw-bold w-100" type="submit"
-                                    value="Save changes">
-                                    Save Changes
-                                </button>
-                            </form>
-                            
-                            <hr>
-
-                            <form class="account-form px-4" action="{% url 'account:deactivate' %}"
-                                method="post">
-                                {% csrf_token %}
-                                <p class=" h3 pt-4 font-weight-bold">Deactivate Account</p>
-                                <p>Are you sure you want to deactivate your account?</p>
-                                <button type="submit" role="button"
-                                    class="btn btn-danger btn-block py-2 mb-4 mt-5 fw-bold w-100">Deactivate</button>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends "../../store/base.html" %}
+{% extends "../sub_base.html" %}
 {% block title %}Log In{% endblock %}
 {% load crispy_forms_tags  %}
 
@@ -10,74 +10,33 @@
 </script>
 {% endif %}
 
-{% block content %}
-<style>
-    .container-fluid {
-        max-width: 100%;
-    }
+{% block sub_content %}
+<form class="account-form p-4 rounded" action="{% url 'account:login' %}" method="post">
 
-    .account-form input {
-        border: 2px solid #ccc;
-        height: calc(2em + .75rem + 2px);
-    }
+    {% csrf_token %}
+    <h3 class="mb-4 fw-bold">Sign In</h3>
 
-    .account-form input:focus {
-        border-color: #1497ff;
-        box-shadow: none;
-    }
-</style>
-
-
-<div class="container-fluid">
-    <div class="row no-gutter">
-        <div class="col-md-12">
-            <div class="login d-flex align-items-center py-5">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 col-lg-6  mx-auto">
-                            <!-- {% if messages %}
-                            {% for message in messages %}
-                            <div class="text-center alert alert-{{ message.tags }}">
-                                {{ message|safe }}
-                            </div>
-                            {% endfor %}
-                            {% endif %} -->
-                            <form class="account-form p-4 rounded" action="{% url 'account:login' %}" method="post">
-
-                                {% csrf_token %}
-                                <h3 class="mb-4 fw-bold">Sign In</h3>
-
-                                {% if form.errors %}
-                                <div class="alert alert-primary" role="alert">
-                                    Error: Username or Password not correct!
-                                </div>
-                                {% endif %}
-
-                                {{ form|crispy }}
-
-                                <div class="d-grid gap-2">
-                                    <input type="hidden" name="next" value="{{ next }}">
-                                    <button class="btn btn-primary py-2 mb-4 mt-5 fw-bold" type="submit"
-                                        value="Log-in">Sign in
-                                    </button>
-                                </div>
-                                <p class="text-center pb-3">
-                                    <a href="{% url 'account:signup' %}">Create an account</a>
-                                </p>
-                                <p class="text-center pb-3">
-                                    <a href="{% url 'account:password_reset' %}">Forgot your password?</a>
-                                </p>
-                            </form>
-
-                            <p class="small text-center">
-                                {% comment %} <a href="#">Help Center?</a> {% endcomment %}
-                            </p>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    {% if form.errors %}
+    <div class="alert alert-primary" role="alert">
+        Error: Username or Password not correct!
     </div>
-</div>
+    {% endif %}
+
+    {{ form|crispy }}
+
+    <div class="d-grid gap-2">
+        <input type="hidden" name="next" value="{{ next }}">
+        <button class="btn btn-primary py-2 mb-4 mt-5 fw-bold" type="submit" value="Log-in">Sign in
+        </button>
+    </div>
+
+    <div class="flex-column justify-content-center mx-auto pb-3">
+        <div class="text-center mt-2"><a href="{% url 'account:signup' %}">Create an account</a></div>
+        <div class="text-center mt-3"><a href="{% url 'account:password_reset' %}">Forgot your password?</a></div>
+    </div>
+
+</form>
+
+
+
 {% endblock %}
