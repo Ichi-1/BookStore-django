@@ -11,7 +11,7 @@ class HomePageView(ListView):
     context_object_name = "products"
 
     def get_queryset(self):
-        qs = Product.products.all()
+        qs = Product.objects.all()
         return qs
 
 
@@ -21,7 +21,7 @@ class ProductByCategoryListView(ListView):
 
     def get_queryset(self):
         category_slug = self.kwargs.get("category_slug")
-        product = Product.products.filter(category__slug=category_slug)
+        product = Product.objects.filter(category__slug=category_slug)
         return product
 
     def get_context_data(self, **kwargs):

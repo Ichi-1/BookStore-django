@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     # 3rd party
     'django_countries',
     'crispy_forms',
+    'mptt',
 ]
 
 MIDDLEWARE = [
