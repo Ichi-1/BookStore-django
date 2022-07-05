@@ -11,7 +11,7 @@ class HomePageView(ListView):
     context_object_name = "products"
 
     def get_queryset(self):
-        qs = Product.objects.all()
+        qs = Product.objects.prefetch_related('product_image').filter(is_active=True)
         return qs
 
 
@@ -20,9 +20,15 @@ class ProductByCategoryListView(ListView):
     context_object_name = "products"
 
     def get_queryset(self):
-        category_slug = self.kwargs.get("category_slug")
-        product = Product.objects.filter(category__slug=category_slug)
+        """
+        Return QuerySet of parent category and child categories too
+        """
+        category_slug = self.kwargs.get('category_slug')
+        category = Category.objects.get(slug=category_slug).get_descendants(include_self=True)
+        product = Product.objects.filter(category__in=category)
+       
         return product
+        
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,6 +39,8 @@ class ProductByCategoryListView(ListView):
         return context
 
 
+
+
 class ProductDetailView(DetailView):
     model = Product
     template_name = "store/detail.html"
@@ -40,7 +48,7 @@ class ProductDetailView(DetailView):
 
     def get_object(self):
         slug = self.kwargs.get("slug")
-        product = Product.objects.filter(slug=slug, in_stock=True).first()
+        product = Product.objects.filter(slug=slug, is_active=True).first()
         if not product:
             raise Http404("Product could not be found")
         return product

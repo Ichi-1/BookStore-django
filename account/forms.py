@@ -9,7 +9,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
-from .models import CustomUser
+from .models import Customer
 from .token import token_generator
 
 
@@ -28,7 +28,7 @@ class PwdResetForm(PasswordResetForm):
 
     def clean_email(self):
         email = self.cleaned_data["email"]
-        u = CustomUser.objects.filter(email=email)
+        u = Customer.objects.filter(email=email)
         if not u:
             raise forms.ValidationError(
                 "Unfortunatley we can not find that email address"
@@ -86,11 +86,10 @@ class UserAccountUpdateForm(forms.ModelForm):
     )
 
     class Meta:
-        model = CustomUser
+        model = Customer
         fields = (
             "email",
             "first_name",
-            "phone_number",
         )
 
     def __init__(self, *args, **kwargs):
@@ -115,7 +114,7 @@ class SignUpForm(forms.ModelForm):
     )
 
     class Meta:
-        model = CustomUser
+        model = Customer
         fields = (
             "user_name",
             "email",
@@ -123,7 +122,7 @@ class SignUpForm(forms.ModelForm):
 
     def clean_user_name(self):
         user_name = self.cleaned_data["user_name"].lower()
-        r = CustomUser.objects.filter(user_name=user_name)
+        r = Customer.objects.filter(user_name=user_name)
         if r.count():
             raise forms.ValidationError("Username already exists")
         return user_name
@@ -136,7 +135,7 @@ class SignUpForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data["email"]
-        if CustomUser.objects.filter(email=email).exists():
+        if Customer.objects.filter(email=email).exists():
             raise forms.ValidationError(
                 "Please use another Email, that is already taken"
             )

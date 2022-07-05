@@ -13,7 +13,7 @@ from django.views.generic import (
 )
 
 from orders.models import Order
-from account.models import CustomUser
+from account.models import Customer
 from .forms import SignUpForm, UserAccountUpdateForm
 from .mixins import PreventSingUpMixin
 from .token import token_generator
@@ -44,8 +44,8 @@ class AccountActivateView(RedirectView):
     def get(self, request, uidb64, token):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
-            user = CustomUser.objects.get(pk=uid)
-        except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+            user = Customer.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, Customer.DoesNotExist):
             user = None
 
         if user is not None and token_generator.check_token(user, token):
@@ -81,7 +81,7 @@ class UserAccountUpdateView(
         UpdateView
     ):
 
-    model = CustomUser
+    model = Customer
     form_class = UserAccountUpdateForm
     template_name = 'account/dashboard/update.html'
     success_message = 'Profile Data Successfuly Updated'

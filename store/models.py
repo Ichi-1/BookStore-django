@@ -1,4 +1,3 @@
-from tabnanny import verbose
 from django.db import models
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
@@ -16,7 +15,7 @@ class Category(MPTTModel):
         help_text=_('Required and Unique'),
     )
     slug = models.SlugField(
-        verbose_name=_('Caregory safe URL'),
+        verbose_name=_('Category safe URL'),
         max_length=255,
         unique=True,
     )
@@ -30,17 +29,18 @@ class Category(MPTTModel):
     is_active = models.BooleanField(default=True)
 
     class MPTTMeta:
-        oredr_insertion_by = ['name']
+        order_insertion_by = ['name']
     
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
     
     def get_absolute_url(self):
-        return reverse('store:category-list', args=[self.slug])
+        return reverse('store:category-list', kwargs={'category_slug':self.slug })
     
     def __str__(self):
         return self.name 
+
 
 
 class ProductType(models.Model):
@@ -149,13 +149,12 @@ class Product(models.Model):
         # ordering = ('-created',)
     
     def get_absolute_url(self):
-        return reverse('store:product-detail', args=[self.slug])
+        return reverse('store:product-detail', kwargs={'category_slug':self.category.slug, 'slug': self.slug })
 
     def __str__(self):
         return self.title
 
 
-    
 class ProductSpecificationValue(models.Model):
     """
     This table contain each of the product individual 
@@ -214,5 +213,3 @@ class ProductImage(models.Model):
     class Meta:
         verbose_name = _('Product Image')
         verbose_name_plural = _('Product Images')
-    
-

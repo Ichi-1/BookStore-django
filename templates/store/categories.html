@@ -8,7 +8,7 @@
 {% block content %}
 <div class="container" style="max-width: 1000px">
   <div class="col-12">
-    <h1 class="h2">{{ category_name }}</h1>
+    <h1 class="h2 fw-bold">{{ category_name }}</h1>
   </div>
   <div class="col-12 d-flex justify-content-between">
     <div><b>Popular</b> products purchased</div>
@@ -25,12 +25,19 @@
         {% for product in products %}
         <div class="col d-flex">
           <div class="card shadow-sm">
-            <a href="{{ product.get_absolute_url }}"><img style="
-                  min-height: 280px;
-                  min-width: 100%;
-                  object-fit: cover;
-                  border-radius: 3px;
-              " class="img-fluid" alt="Responsive image" src="{{ product.image.url }}"></a>
+
+            {% for image in product.product_image.all %}
+                {% if image.is_feature %}
+                    <a href="{{ product.get_absolute_url }}">
+                    <img style="min-height: 280px;
+                                max-height: 300px;
+                                min-width: 100%;
+                                object-fit: cover;
+                                border-radius: 2px;" 
+                         class="img-fluid" alt="{{image.image.alt_text}}" src="{{ image.image.url }}"></a>
+                {% endif %}
+            {% endfor %}
+            
             <div class="card-body">
               <p class="card-text">
                 {% if product.title|length <= 15 %}

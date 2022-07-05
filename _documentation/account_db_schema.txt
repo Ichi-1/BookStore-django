@@ -1,0 +1,23 @@
+Table Customer {
+  id int [pk, increment]
+  email email
+  name varchar
+  mobile varchar
+  is_active int
+  is_staff int
+  created datetime
+  updated datetime
+}
+
+Table Address {
+    id int
+    customer varchar
+    country_region varchar
+    full_name varchar
+    phone varchar(20)
+    postcode varchar
+    address_line varchar
+    address_line2 varchar
+    town_city varchar
+}
+Ref: Customer.id <  Address.id
