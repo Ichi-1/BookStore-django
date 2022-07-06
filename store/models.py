@@ -71,6 +71,7 @@ class ProductSpecification(models.Model):
     """
     product_type = models.ForeignKey(
         ProductType,
+        related_name='specification',
         on_delete=models.RESTRICT,
     )
     name = models.CharField(
@@ -146,7 +147,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = _('Product')
         verbose_name_plural = _('Products')
-        # ordering = ('-created',)
+        ordering = ('-created_at',)
     
     def get_absolute_url(self):
         return reverse('store:product-detail', kwargs={'category_slug':self.category.slug, 'slug': self.slug })
@@ -162,6 +163,7 @@ class ProductSpecificationValue(models.Model):
     """
     product = models.ForeignKey(
         Product, 
+        related_name='spec_value',
         on_delete=models.CASCADE
     )
     specification = models.ForeignKey(

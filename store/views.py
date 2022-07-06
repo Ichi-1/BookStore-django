@@ -1,8 +1,13 @@
+from itertools import product
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, ListView
 
-from .models import Category, Product
+from .models import (
+    Category, Product, 
+    ProductSpecification, 
+    ProductSpecificationValue
+)
 
 
 class HomePageView(ListView):
@@ -13,7 +18,9 @@ class HomePageView(ListView):
     def get_queryset(self):
         qs = Product.objects.prefetch_related('product_image').filter(is_active=True)
         return qs
-
+    
+        
+        
 
 class ProductByCategoryListView(ListView):
     template_name = "store/categories.html"
@@ -28,10 +35,11 @@ class ProductByCategoryListView(ListView):
         product = Product.objects.filter(category__in=category)
        
         return product
-        
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
         category_slug = self.kwargs.get("category_slug")
         category_name = Category.objects.get(slug=category_slug)
 
@@ -52,3 +60,24 @@ class ProductDetailView(DetailView):
         if not product:
             raise Http404("Product could not be found")
         return product
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product_id = self.object.pk
+
+        pages = ProductSpecificationValue.objects\
+            .filter(specification_id=2)\
+            .get(product_id=product_id)
+
+
+        author = ProductSpecificationValue.objects\
+            .filter(specification_id=3)\
+            .get(product_id=product_id)
+
+        isbn = ProductSpecificationValue.objects\
+            .filter(specification_id=1)\
+            .get(product_id=product_id)
+
+        context.update({'author': author, 'pages': pages, 'isbn': isbn})
+        return context
