@@ -2,7 +2,7 @@
 {% block title %} Success {% endblock %}
 
 
-{% block content %}
+{% block sub_content %}
 {% if not request.user.is_authenticated %}
 <script>
   window.location.href = '{% url "store:home" %}';

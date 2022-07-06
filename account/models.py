@@ -79,7 +79,7 @@ class Customer(AbstractBaseUser, PermissionsMixin):
         )
 
     def __str__(self):
-        return self.user_name
+        return self.name
 
 
 class Address(models.Model):
@@ -95,7 +95,7 @@ class Address(models.Model):
     )
     full_name = models.CharField(max_length=150)
     phone = models.CharField(max_length=50)
-    postcod = models.CharField(max_length=50)
+    postcode = models.CharField(max_length=50)
     address_line = models.CharField(_('Address Line 1'), max_length=255)
     address_line2 = models.CharField(_('Address Line 2'), max_length=255)
     town_city = models.CharField(_('Town/City/State'), max_length=150)

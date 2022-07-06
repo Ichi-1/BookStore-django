@@ -5,7 +5,7 @@
 
 {% block sub_content %}
 <h3 class="mb-3 fw-bold">Enter new data and save changes</h3>
-<form method="POST" lass="account-form px-4 pt-4" enctype="multipart/form-data">
+<form method="POST" lass="account-form px-4 pt-2" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form|crispy }}
   <button class="btn btn-primary btn-block py-2 mb-4 mt-5 fw-bold w-100" type="submit" value="Save changes">

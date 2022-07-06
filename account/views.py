@@ -5,7 +5,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect, render, get_object_or_404
-from django.utils.encoding import force_bytes, force_str
+from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views.generic import (
     CreateView,ListView,
@@ -13,8 +13,12 @@ from django.views.generic import (
 )
 
 from orders.models import Order
-from account.models import Customer
-from .forms import SignUpForm, UserAccountUpdateForm
+from account.models import Customer, Address
+from .forms import (
+    SignUpForm, 
+    UserAccountUpdateForm, 
+    UserAddressForm
+)
 from .mixins import PreventSingUpMixin
 from .token import token_generator
 
@@ -38,7 +42,7 @@ class SignUpView(SuccessMessageMixin, PreventSingUpMixin, CreateView):
         return reverse('account:login')
 
 
-class AccountActivateView(RedirectView):
+class ActivateAccountView(RedirectView):
     url = reverse_lazy('account:success')
     
     def get(self, request, uidb64, token):
@@ -91,13 +95,41 @@ class UserAccountUpdateView(
 
 
 
-
-
 @login_required
-def account_deactivate(request):
-    user = CustomUser.objects.get(user_name=request.user)
+def deactivate_account(request):
+    user = Customer.objects.get(name=request.user.name)
     user.is_active = False
     user.save()
     logout(request)
     # messages.info(request, 'Account successfuly deactivated')
     return redirect('account:deactivate_confirm')
+
+
+
+
+#* Addresses CRUD section
+
+class AddressesListView(LoginRequiredMixin, ListView):
+    template_name = 'account/dashboard/addresses.html'
+    context_object_name = 'addresses'
+
+    def get_queryset(self):
+        user = self.request.user
+        addresses = Address.objects.filter(customer=user)
+        return addresses
+
+
+class AddressCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    template_name = 'account/dashboard/address_update.html'
+    form_class = UserAddressForm
+    success_message = 'Address was added succesfully'
+
+    def form_valid(self, form):
+        address_data = form.save(commit=False)
+        address_data.customer = self.request.user
+        address_data.save()
+        return super(AddressCreateView, self).form_valid(form)
+
+
+    def get_success_url(self):
+        return reverse('account:addresses')

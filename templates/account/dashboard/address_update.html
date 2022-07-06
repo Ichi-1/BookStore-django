@@ -1,0 +1,35 @@
+{% extends "../sub_base.html" %}
+{% block title %}Edit Addresses{% endblock %}
+{% load crispy_forms_tags %}
+
+
+
+{% block sub_content %}
+<h1 class="h3 fw-bold">Create/Edit Address</h1>
+<div>Add a new delivery <b>address</b> and delivery preferences</div>
+<form name="address_form" class="account-form mt-3" method="post" enctype="multipart/form-data">
+    {% if form.errors %}
+    <div class="alert alert-primary" role="alert">
+        Error: Please try again!
+    </div>
+    {% endif %}
+
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <button class="btn btn-primary btn-block py-2 mb-4 mt-4 fw-bold w-100" type="button" value="Submit"
+        onclick="submitForm()">
+        Add Address
+    </button>
+</form>
+
+
+<script> 
+    function submitForm() {
+       const form = document.getElementsByName('address_form')[0];
+       form.submit(); // Submit the form
+       form.reset();  // Reset all form data
+       return false; // Prevent page refresh
+    }
+    </script>
+{% endblock %}

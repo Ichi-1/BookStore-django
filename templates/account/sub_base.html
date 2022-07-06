@@ -7,19 +7,10 @@
 <div class="container-fluid">
    <div class="row no-gutter">
       <div class="col-md-12">
-         <div class="login d-flex align-items-center py-5">
+         <div class="login d-flex align-items-center mt-3">
             <div class="container">
                <div class="row">
                   <div class="col-12 col-lg-6  mx-auto">
-                     {% if messages %}
-                     <div class="mx-auto" style="max-width: 500px">
-                        {% for message in messages %}
-                        <div class="text-center alert alert-{{ message.tags }}">
-                           {{ message|safe }}
-                        </div>
-                        {% endfor %}
-                     </div>
-                     {% endif %}
                      {% block sub_content %}{% endblock %}
                   </div>
                </div>
@@ -29,3 +20,7 @@
    </div>
 </div>
 {% endblock %}
+
+
+
+

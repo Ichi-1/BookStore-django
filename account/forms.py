@@ -9,7 +9,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
-from .models import Customer
+from .models import Customer, Address
 from .token import token_generator
 
 
@@ -99,7 +99,7 @@ class UserAccountUpdateForm(forms.ModelForm):
 
 
 class SignUpForm(forms.ModelForm):
-    user_name = forms.CharField(
+    name = forms.CharField(
         label="Enter Username",
         min_length=4,
         max_length=50,
@@ -116,16 +116,16 @@ class SignUpForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = (
-            "user_name",
+            "name",
             "email",
         )
 
-    def clean_user_name(self):
-        user_name = self.cleaned_data["user_name"].lower()
-        r = Customer.objects.filter(user_name=user_name)
+    def clean_name(self):
+        name = self.cleaned_data["name"].lower()
+        r = Customer.objects.filter(name=name)
         if r.count():
             raise forms.ValidationError("Username already exists")
-        return user_name
+        return name
 
     def clean_password2(self):
         cd = self.cleaned_data
@@ -143,7 +143,7 @@ class SignUpForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["user_name"].widget.attrs.update(
+        self.fields["name"].widget.attrs.update(
             {"class": "form-control mb-3", "placeholder": "Username"}
         )
         self.fields["email"].widget.attrs.update(
@@ -197,3 +197,16 @@ class UserLoginForm(AuthenticationForm):
             }
         )
     )
+
+
+class UserAddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = (
+            'full_name', 
+            'phone', 
+            'address_line', 
+            'address_line2', 
+            'town_city', 
+            'postcode'
+        )

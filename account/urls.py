@@ -5,8 +5,10 @@ from django.contrib.auth.views import (
     PasswordResetConfirmView,PasswordResetView,
 )
 from .views import (
-    account_deactivate,
-    AccountActivateView,
+    deactivate_account,
+    AddressesListView,
+    AddressCreateView,
+    ActivateAccountView,
     SignUpView, SuccessView,
     UserAccountUpdateView, UserDashboardView,
 )
@@ -14,32 +16,40 @@ from .forms import PwdResetConfirmForm, PwdResetForm, UserLoginForm
 
 app_name = "account"
 
+
 urlpatterns = [
     # registration and login/logour resoureces
     path("signup/", SignUpView.as_view(), name="signup"),
-    path("activate/<slug:uidb64>/<slug:token>/",
-        AccountActivateView.as_view(),
-        name="activate",
-    ),
+    path("activate/<slug:uidb64>/<slug:token>/",ActivateAccountView.as_view(), name="activate"),
     path("success", SuccessView.as_view(), name="success"),
     path("logout/", LogoutView.as_view(), name="logout"),
-    path("login/",
-        LoginView.as_view(
+    path("login/",LoginView.as_view( 
             template_name="account/registration/login.html",
-            form_class=UserLoginForm,
-        ),
-        name="login",
+            form_class=UserLoginForm
+        ), name="login",
     ),
     # dashboard resources
     path("dashboard/", UserDashboardView.as_view(), name="dashboard"),
     path("update/<int:pk>", UserAccountUpdateView.as_view(), name="update"),
-    path("deactivate/", account_deactivate, name="deactivate"),
-    path("deactivate_confirm/",
-        TemplateView.as_view(
+    path("deactivate/", deactivate_account, name="deactivate"),
+    path("deactivate_confirm/",TemplateView.as_view(
             template_name="account/dashboard/deactivate_confirm.html"
-        ),
-        name="deactivate_confirm",
+        ), name="deactivate_confirm",
     ),
+    #addresses crud 
+    path('addresses/', AddressesListView.as_view(), name='addresses'),
+    path('addresses/add', AddressCreateView.as_view(), name='create_address'),
+    path('addresses/update/<slug:id>', deactivate_account, name='update_address'),
+    path('addresses/delete/<slug:id>', deactivate_account, name='delete_address'),
+    path('addresses/set-default/<slug:id>', deactivate_account, name='set_default'),
+    
+
+
+
+
+
+
+    # TODO relocate to separete module reset process urls
     # reset process
     path("password_reset/",
         PasswordResetView.as_view(
