@@ -69,10 +69,11 @@
           <div class="row p-3">
             <div class="col-15 text-end">
               <button type="button" id="add-button" value="{{ product.id }}" class="btn btn-success fw500">Add to
-                basket</button>
-              <button type="button" id="add-button" value="{{ product.id }}" class="btn btn-primary fw500">Add to
-                Favorites</button>
-            </div>
+                basket
+            </button>
+            <a href="{% url 'account:add_to_wishlist' product.id %}" class="btn btn-outline-secondary fw500" role="button" aria-pressed="false">
+                Add to Wish List
+            </a>
           </div>
         </div>
       </div>

@@ -216,14 +216,14 @@ class UserAddressForm(forms.ModelForm):
         )
         self.fields["phone"].widget.attrs.update({"class": "form-control mb-2 account-form", "placeholder": "+123456789"})
         self.fields["address_line"].widget.attrs.update(
-            {"class": "form-control mb-2 account-form", "placeholder": "address placeholder"}
+            {"class": "form-control mb-2 account-form", "placeholder": "1234 Main St"}
         )
         self.fields["address_line2"].widget.attrs.update(
-            {"class": "form-control mb-2 account-form", "placeholder": "address placeholder"}
+            {"class": "form-control mb-2 account-form", "placeholder": "Apartment or suite"}
         )
         self.fields["town_city"].widget.attrs.update(
-            {"class": "form-control mb-2 account-form", "placeholder": "Town"}
+            {"class": "form-control mb-2 account-form", "placeholder": "Town, city or state"}
         )
         self.fields["postcode"].widget.attrs.update(
-            {"class": "form-control mb-2 account-form", "placeholder": "Postcode"}
+            {"class": "form-control mb-2 account-form", "placeholder": "12345678"}
         )

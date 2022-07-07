@@ -5,9 +5,11 @@ from django.contrib.auth.views import (
     PasswordResetConfirmView,PasswordResetView,
 )
 from .views import (
+    add_to_wishlist,
     deactivate_account,
     delete_address, 
     set_default,
+    WishListView,
     AddressesListView,
     AddressCreateView,
     AddressUpdateView,
@@ -45,7 +47,9 @@ urlpatterns = [
     path('addresses/update/<slug:id>/', AddressUpdateView.as_view(), name='update_address'),
     path('addresses/delete/<slug:id>/', delete_address, name='delete_address'),
     path('addresses/set-default/<slug:id>/', set_default, name='set_default'),
-    
+    # Wish List
+    path('wishlist/', WishListView.as_view(), name='wishlist'),
+    path('wishlist/add/<int:id>', add_to_wishlist, name='add_to_wishlist'),
 
 
 

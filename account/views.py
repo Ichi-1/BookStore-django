@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
 
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect, render, get_object_or_404
@@ -19,6 +20,7 @@ from django.views.generic import (
 
 from orders.models import Order
 from account.models import Customer, Address
+from store.models import Product
 from .forms import (
     SignUpForm, 
     UserAccountUpdateForm, 
@@ -103,18 +105,17 @@ class UserAccountUpdateView(
         SuccessMessageMixin, 
         UpdateView
     ):
-
     model = Customer
     form_class = UserAccountUpdateForm
     template_name = 'account/dashboard/update.html'
-    success_message = 'Profile info updated successfuly'
+    success_message = 'Profile info was updated successfuly'
     
     def get_success_url(self):
         return reverse('account:update', kwargs={'pk':self.object.pk})
 
 
 
-#? Addresses CRUD section
+#* Addresses CRUD section
 
 class AddressesListView(LoginRequiredMixin, ListView):
     template_name = 'account/dashboard/addresses.html'
@@ -160,7 +161,7 @@ class AddressUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 def delete_address(request, id):
     address = Address.objects.filter(pk=id, customer=request.user)
     address.delete()
-    messages.info(request, 'Address was deleted successfuly')
+    messages.warning(request, 'Address was deleted successfuly')
     return redirect("account:addresses")
 
 
@@ -173,3 +174,34 @@ def set_default(request, id):
     messages.info(request, 'Address was set as default')
     return redirect('account:addresses')
  
+
+
+#* Wishlist section
+
+class WishListView(LoginRequiredMixin, ListView):
+    template_name = 'account/dashboard/wish_list.html'
+    context_object_name = 'wishlist'
+
+    def get_queryset(self):
+        wishlist = Product.objects.filter(users_wishlist=self.request.user)
+        return wishlist
+
+
+
+#TODO this function can remove item from wishlist
+@login_required
+def add_to_wishlist(request, id):
+    product = get_object_or_404(Product, id=id)
+    user_wishlist = product.users_wishlist.filter(id=request.user.id)
+
+    if user_wishlist.exists():
+        product.users_wishlist.remove(request.user)
+        messages.warning(request, f'«{product.title}» has been removed from your Wish List')
+    else:
+        product.users_wishlist.add(request.user)
+        messages.success(request, f'Added «{product.title}» to your Wish List')
+
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+      
+
+

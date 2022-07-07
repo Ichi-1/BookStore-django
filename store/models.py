@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
@@ -133,6 +134,7 @@ class Product(models.Model):
             },
         },
     )
+    # Product status
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(
         _('Created at'), 
@@ -143,6 +145,13 @@ class Product(models.Model):
         _('Updated at'),
         auto_now=True,
     )
+    
+    users_wishlist = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='user_wishlist',
+        blank=True
+    )
+
 
     class Meta:
         verbose_name = _('Product')
@@ -215,3 +224,5 @@ class ProductImage(models.Model):
     class Meta:
         verbose_name = _('Product Image')
         verbose_name_plural = _('Product Images')
+
+

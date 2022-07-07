@@ -1,0 +1,48 @@
+{% extends "../sub_base.html" %}
+{% block title %}Users Wish List{% endblock %}
+
+{% block content %}
+<div class="container mt-2 pt-2">
+  <div class="col-12 mx-auto">
+    <h1 class="h3 fw-bold">My Wishlist</h1>
+    <div>Manage your Wishlist</div>
+    <hr />
+  
+    {% if wishlist %}
+    {% for product in wishlist  %}
+  
+    <div class="card mb-3 rounded-0">
+      <div class="row g-0">
+        <div class="col-md-2">
+          {% for image in product.product_image.all  %}
+            {% if image.is_feature %}
+            <a href="{{ product.get_absolute_url }}"">
+              <img class="shadow card-img-top" width="135px" src="{{ image.image.url }}"
+              alt="{{ image.image.alt_text }}" />
+            </a>
+            
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="col-md-10">
+          <div class="card-body">
+            <h5 class="card-title">{{product.title}}</h5>
+            <p class="card-text">{{product.description|slice:":220"}}...</p>
+            <p class="card-text"><small class="text-muted">${{product.regular_price}}</small></p>
+            <a type="button" class="btn btn-primary fw500 btn-sm fw-bold" href="{% url 'account:add_to_wishlist' product.id %}">Remove from Wish List</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    {% endfor %}
+    {% else %}
+    <p class="card-text">No products have been added to your wishlist yet</p>
+    {% endif %}
+  
+  
+  
+  </div>
+</div>
+
+{% endblock %}
