@@ -6,8 +6,11 @@ from django.contrib.auth.views import (
 )
 from .views import (
     deactivate_account,
+    delete_address, 
+    set_default,
     AddressesListView,
     AddressCreateView,
+    AddressUpdateView,
     ActivateAccountView,
     SignUpView, SuccessView,
     UserAccountUpdateView, UserDashboardView,
@@ -39,9 +42,9 @@ urlpatterns = [
     #addresses crud 
     path('addresses/', AddressesListView.as_view(), name='addresses'),
     path('addresses/add', AddressCreateView.as_view(), name='create_address'),
-    path('addresses/update/<slug:id>', deactivate_account, name='update_address'),
-    path('addresses/delete/<slug:id>', deactivate_account, name='delete_address'),
-    path('addresses/set-default/<slug:id>', deactivate_account, name='set_default'),
+    path('addresses/update/<slug:id>/', AddressUpdateView.as_view(), name='update_address'),
+    path('addresses/delete/<slug:id>/', delete_address, name='delete_address'),
+    path('addresses/set-default/<slug:id>/', set_default, name='set_default'),
     
 
 

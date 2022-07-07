@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,8 +9,12 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views.generic import (
-    CreateView,ListView,
-    UpdateView,TemplateView, RedirectView
+    CreateView,
+    DeleteView,
+    ListView,
+    UpdateView,
+    TemplateView, 
+    RedirectView
 )
 
 from orders.models import Order
@@ -23,9 +28,11 @@ from .mixins import PreventSingUpMixin
 from .token import token_generator
 
 
-class SignUpView(SuccessMessageMixin, PreventSingUpMixin, CreateView):
-    template_name = 'account/registration/signup.html'
+#* Registration section
+
+class SignUpView(PreventSingUpMixin, SuccessMessageMixin, CreateView):
     form_class = SignUpForm
+    template_name = 'account/registration/signup.html'
     success_message = 'Account was created. Check your email for activation link'
 
     def form_valid(self, form):
@@ -65,11 +72,23 @@ class SuccessView(TemplateView):
     template_name = 'account/registration/activation_success.html'
 
 
+@login_required
+def deactivate_account(request):
+    user = Customer.objects.get(name=request.user.name)
+    user.is_active = False
+    user.save()
+    logout(request)
+    messages.info(request, 'Account deactivated successfuly')
+    return redirect('account:deactivate_confirm')
+
+
+
+#* User Dashboard section
+
 class UserDashboardView(LoginRequiredMixin, ListView):
     """
     Provide List of user orders and option for manage them
     """
-
     template_name = 'account/dashboard/dashboard.html'
     context_object_name = 'orders'
 
@@ -88,26 +107,14 @@ class UserAccountUpdateView(
     model = Customer
     form_class = UserAccountUpdateForm
     template_name = 'account/dashboard/update.html'
-    success_message = 'Profile Data Successfuly Updated'
+    success_message = 'Profile info updated successfuly'
     
     def get_success_url(self):
         return reverse('account:update', kwargs={'pk':self.object.pk})
 
 
 
-@login_required
-def deactivate_account(request):
-    user = Customer.objects.get(name=request.user.name)
-    user.is_active = False
-    user.save()
-    logout(request)
-    # messages.info(request, 'Account successfuly deactivated')
-    return redirect('account:deactivate_confirm')
-
-
-
-
-#* Addresses CRUD section
+#? Addresses CRUD section
 
 class AddressesListView(LoginRequiredMixin, ListView):
     template_name = 'account/dashboard/addresses.html'
@@ -119,9 +126,9 @@ class AddressesListView(LoginRequiredMixin, ListView):
         return addresses
 
 
-class AddressCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
-    template_name = 'account/dashboard/address_update.html'
+class AddressCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = UserAddressForm
+    template_name = 'account/dashboard/address_update.html'
     success_message = 'Address was added succesfully'
 
     def form_valid(self, form):
@@ -130,6 +137,39 @@ class AddressCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
         address_data.save()
         return super(AddressCreateView, self).form_valid(form)
 
+    def get_success_url(self):
+        return reverse('account:addresses')
+
+
+class AddressUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    form_class = UserAddressForm 
+    template_name = 'account/dashboard/address_update.html'
+    success_message = 'Address was updated successfuly'
+
+
+    def get_object(self):
+        customer = self.request.user
+        return Address.objects.get(pk=self.kwargs.get('id'), customer=customer)
+
 
     def get_success_url(self):
         return reverse('account:addresses')
+    
+
+@login_required
+def delete_address(request, id):
+    address = Address.objects.filter(pk=id, customer=request.user)
+    address.delete()
+    messages.info(request, 'Address was deleted successfuly')
+    return redirect("account:addresses")
+
+
+@login_required
+def set_default(request, id):
+    Address.objects.filter(customer=request.user, default=True)\
+        .update(default=False)
+    Address.objects.filter(pk=id, customer=request.user)\
+        .update(default=True)
+    messages.info(request, 'Address was set as default')
+    return redirect('account:addresses')
+ 

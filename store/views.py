@@ -66,13 +66,12 @@ class ProductDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         product_id = self.object.pk
 
-        pages = ProductSpecificationValue.objects\
-            .filter(specification_id=2)\
-            .get(product_id=product_id)
-
-
         author = ProductSpecificationValue.objects\
             .filter(specification_id=3)\
+            .get(product_id=product_id)
+
+        pages = ProductSpecificationValue.objects\
+            .filter(specification_id=2)\
             .get(product_id=product_id)
 
         isbn = ProductSpecificationValue.objects\

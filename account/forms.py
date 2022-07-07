@@ -72,8 +72,8 @@ class UserAccountUpdateForm(forms.ModelForm):
             }
         ),
     )
-    first_name = forms.CharField(
-        label="Firstname",
+    name = forms.CharField(
+        label="Your username",
         min_length=4,
         max_length=50,
         widget=forms.TextInput(
@@ -87,14 +87,12 @@ class UserAccountUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Customer
-        fields = (
-            "email",
-            "first_name",
-        )
+        fields = ("email", "name",)
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["first_name"].required = True
+        self.fields["name"].required = True
         self.fields["email"].required = True
 
 
@@ -209,4 +207,23 @@ class UserAddressForm(forms.ModelForm):
             'address_line2', 
             'town_city', 
             'postcode'
+        )
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["full_name"].widget.attrs.update(
+            {"class": "form-control mb-2 account-form", "placeholder": "John Doe"}
+        )
+        self.fields["phone"].widget.attrs.update({"class": "form-control mb-2 account-form", "placeholder": "+123456789"})
+        self.fields["address_line"].widget.attrs.update(
+            {"class": "form-control mb-2 account-form", "placeholder": "address placeholder"}
+        )
+        self.fields["address_line2"].widget.attrs.update(
+            {"class": "form-control mb-2 account-form", "placeholder": "address placeholder"}
+        )
+        self.fields["town_city"].widget.attrs.update(
+            {"class": "form-control mb-2 account-form", "placeholder": "Town"}
+        )
+        self.fields["postcode"].widget.attrs.update(
+            {"class": "form-control mb-2 account-form", "placeholder": "Postcode"}
         )

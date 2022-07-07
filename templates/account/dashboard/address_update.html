@@ -5,8 +5,20 @@
 
 
 {% block sub_content %}
-<h1 class="h3 fw-bold">Create/Edit Address</h1>
+
+<!-- <p>URL of this page: {{ request.get_full_path }}</p> -->
+
+{% if '/account/addresses/add' in request.get_full_path %}
+<h1 class="h3 fw-bold">Add new address</h1>
 <div>Add a new delivery <b>address</b> and delivery preferences</div>
+{% endif %}
+
+{% if '/account/addresses/update/' in request.get_full_path %}
+<h1 class="h3 fw-bold">Update your address</h1>
+<div>Edit your delivery <b>address</b> and delivery preferences</div>
+{% endif %}
+
+
 <form name="address_form" class="account-form mt-3" method="post" enctype="multipart/form-data">
     {% if form.errors %}
     <div class="alert alert-primary" role="alert">
