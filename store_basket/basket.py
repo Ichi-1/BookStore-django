@@ -1,6 +1,6 @@
 from decimal import Decimal
+from checkout.models import DeliveryOptions
 from store.models import Product
-from django.conf import settings
 
 
 class Basket():
@@ -8,7 +8,6 @@ class Basket():
     Base Basket Class, prodiving default behaviors that
     can be inreritated or orverride, as necessary.
     """
-
     # if user is new on our site, then user havent session
     # and
     # we need to build new session for user
@@ -102,19 +101,39 @@ class Basket():
             self.save()
 
 
-    
-    def get_total_price(self):
-        subtotal = sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
-
-        if subtotal == 0:
-            shipping = Decimal(0.00)
-        else:
-            shipping = Decimal(11.50)
-
-        total = subtotal + Decimal(shipping)
-        return total
-    
-    
     def clear(self):
         del self.session['basket_id']
         self.save()
+
+
+
+    def get_subtotal_price(self):
+        return sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
+    
+
+    def get_total_price(self):
+        subtotal = sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
+
+        delivery_price = 0.00
+
+        if 'delivery' in self.session:
+            delivery_id = self.session['delivery']['delivery_id']
+            delivery_price = DeliveryOptions.objects.get(id=delivery_id).price
+
+        total = subtotal + Decimal(delivery_price)
+        return total
+
+
+    def get_delivery_price(self):
+        delivery_price = 0.00
+        
+        if 'delivery' in self.session:
+            delivery_id = self.session['delivery']['delivery_id']
+            delivery_price = DeliveryOptions.objects.get(id=delivery_id).price
+        return delivery_price
+      
+
+    def update_total_price(self, delivery_price=0):
+        subtotal = sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
+        updated_total = subtotal + Decimal(delivery_price)
+        return updated_total

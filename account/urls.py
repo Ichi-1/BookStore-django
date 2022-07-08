@@ -30,7 +30,8 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("login/",LoginView.as_view( 
             template_name="account/registration/login.html",
-            form_class=UserLoginForm
+            form_class=UserLoginForm,
+            redirect_authenticated_user=True,
         ), name="login",
     ),
     # dashboard resources

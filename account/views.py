@@ -167,12 +167,20 @@ def delete_address(request, id):
 
 @login_required
 def set_default(request, id):
+
     Address.objects.filter(customer=request.user, default=True)\
         .update(default=False)
+
     Address.objects.filter(pk=id, customer=request.user)\
         .update(default=True)
-    messages.info(request, 'Address was set as default')
-    return redirect('account:addresses')
+
+    previous_url = request.META.get('HTTP_REFERER')
+    if 'delivery_address' in previous_url:
+        messages.info(request, 'Address was set as delivery address')
+        return redirect('checkout:delivery_address')
+    else:
+        messages.info(request, 'Address was set as default')
+        return redirect('account:addresses')
  
 
 

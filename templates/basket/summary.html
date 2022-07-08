@@ -51,7 +51,7 @@
     </div>
     <div class="col-md-5 col-lg-4 order-md-last p-0 order-3">
       <div class="d-grid gap-2 ">
-        <a role="button" href="{% url 'payment:basket' %}" class="btn btn-success fw-bold" type="button">Checkout</a>
+        <a role="button" href="{% url 'checkout:delivery_options' %}" class="btn btn-success fw-bold" type="button">Checkout</a>
         <button class="btn btn-light" type="button">Save for later</button>
       </div>
     </div>
@@ -65,8 +65,11 @@
           <div class="col-md-2 d-none d-md-block">
             {% for image in product.product_image.all %}
             {% if image.is_feature %}
-            <img src="{{ image.image.url }}" alt="{{ image.image.alt_text }}" class="img-fluid mx-auto d-block shadow"
-              width="200px">
+            <a href="{{product.get_absolute_url}}">
+                <img src="{{ image.image.url }}" alt="{{ image.image.alt_text }}" class="img-fluid mx-auto d-block shadow"
+                width="200px">
+            </a>
+            
             {% endif %}
             {% endfor %}
           </div>

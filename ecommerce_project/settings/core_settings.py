@@ -24,11 +24,10 @@ INSTALLED_APPS = [
     'store',
     'store_basket',
     'account',
-    'payment',
     'orders',
+    'checkout',
 
     # 3rd party
-    'django_countries',
     'crispy_forms',
     'mptt',
 ]
@@ -108,7 +107,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 AUTH_USER_MODEL = 'account.Customer'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/account/dashboard/'
 LOGIN_URL = '/account/login/'
 LOGOUT_REDIRECT_URL = LOGIN_URL
 

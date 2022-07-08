@@ -3,13 +3,6 @@
 {% load crispy_forms_tags  %}
 
 
-<!-- Redirect User ?? -->
-{% if request.user.is_authenticated %}
-<script>
-    window.location.href = '{% url "account:dashboard" %}';
-</script>
-{% endif %}
-
 {% block sub_content %}
 <form class="account-form p-4 rounded" action="{% url 'account:login' %}" method="post">
 
