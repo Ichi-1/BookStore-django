@@ -70,9 +70,16 @@
               <button type="button" id="add-button" value="{{ product.id }}" class="btn btn-success fw500">Add to
                 basket
             </button>
+            {% if in_wish_list %}
+            <a href="{% url 'account:add_to_wishlist' product.id %}" class="btn btn-outline-secondary fw500" role="button" aria-pressed="false">
+               Remove from Wish List
+            </a>
+            {% else %}
             <a href="{% url 'account:add_to_wishlist' product.id %}" class="btn btn-outline-secondary fw500" role="button" aria-pressed="false">
                 Add to Wish List
             </a>
+            {% endif %}
+            
           </div>
         </div>
       </div>

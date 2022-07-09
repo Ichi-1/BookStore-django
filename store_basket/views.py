@@ -5,8 +5,6 @@ from .basket import Basket
 from store.models import Product
 
 
-
-
 def basket_summary(request):
     basket = Basket(request)
     return render(request, 'basket/summary.html', {
@@ -29,7 +27,6 @@ def basket_add(request):
         return response
 
 
-
 def basket_delete(request):
     basket = Basket(request)
     if request.POST.get('action') == 'post':
@@ -43,10 +40,7 @@ def basket_delete(request):
         return response
 
         
-        
-
-
-
+    
 def basket_update(request):
     basket = Basket(request)
     if request.POST.get('action') == 'post':

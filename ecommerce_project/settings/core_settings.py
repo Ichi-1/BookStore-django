@@ -115,10 +115,15 @@ LOGOUT_REDIRECT_URL = LOGIN_URL
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
-#  stripe listen --forward-to 127.0.0.1:8000/payment/webhook/
+# settings for stripe api
+# stripe listen --forward-to 127.0.0.1:8000/payment/webhook/
+# os.environ.setdefault('STRIPE_PUBLICK_KEY', STRIPE_PUBLICK_KEY)
 STRIPE_ENDPOINT_SECRET = config('STRIPE_ENDPOINT_SECRET')
 STRIPE_PUBLICK_KEY = config('STRIPE_PUBLICK_KEY')
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 
-# settings for js static
-os.environ.setdefault('STRIPE_PUBLICK_KEY', STRIPE_PUBLICK_KEY)
+
+# PayPal settings
+PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID')
+PAYPAL_CLIENT_SECRET = config('PAYPAL_CLIENT_SECRET')
+

@@ -207,7 +207,7 @@ def add_to_wishlist(request, id):
         messages.warning(request, f'«{product.title}» has been removed from your Wish List')
     else:
         product.users_wishlist.add(request.user)
-        messages.success(request, f'Added «{product.title}» to your Wish List')
+        messages.success(request, f'«{product.title}» added to your Wish List')
 
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
       

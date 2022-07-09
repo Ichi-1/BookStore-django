@@ -1,4 +1,3 @@
-from itertools import product
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, ListView
@@ -66,6 +65,13 @@ class ProductDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         product_id = self.object.pk
 
+        # check if product already added to wish list
+        # then change the context data to button
+        in_wish_list = Product.objects.filter(
+                users_wishlist=self.request.user, 
+                id=product_id
+            )
+
         author = ProductSpecificationValue.objects\
             .filter(specification_id=3)\
             .get(product_id=product_id)
@@ -78,5 +84,11 @@ class ProductDetailView(DetailView):
             .filter(specification_id=1)\
             .get(product_id=product_id)
 
-        context.update({'author': author, 'pages': pages, 'isbn': isbn})
+        context.update({
+                'author': author, 
+                'pages': pages, 
+                'isbn': isbn, 
+                'in_wish_list': in_wish_list,
+            }
+        )
         return context
