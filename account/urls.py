@@ -15,7 +15,7 @@ from .views import (
     AddressUpdateView,
     ActivateAccountView,
     SignUpView, SuccessView,
-    UserAccountUpdateView, UserDashboardView,
+    UserAccountUpdateView, UserDashboardView, OrderListView
 )
 from .forms import PwdResetConfirmForm, PwdResetForm, UserLoginForm
 
@@ -42,6 +42,7 @@ urlpatterns = [
             template_name="account/dashboard/deactivate_confirm.html"
         ), name="deactivate_confirm",
     ),
+    path('orders/', OrderListView.as_view(), name='order_list'),
     #addresses crud 
     path('addresses/', AddressesListView.as_view(), name='addresses'),
     path('addresses/add', AddressCreateView.as_view(), name='create_address'),

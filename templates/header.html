@@ -90,9 +90,13 @@
                           class="dropdown-item small">
                           Wish List
                         </a>
-                        <a href="#"
+                        <a href="{% url 'account:order_list' %}"
                           class="dropdown-item small">
                           Orders
+                        </a>
+                        <a href="{% url 'account:update' user.pk %}"
+                          class="dropdown-item small">
+                          Login & Securiy
                         </a>
                         <a href="{% url 'account:logout' %}"
                           class="dropdown-item small">

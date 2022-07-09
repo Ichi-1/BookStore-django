@@ -213,3 +213,12 @@ def add_to_wishlist(request, id):
       
 
 
+class OrderListView(ListView):
+    template_name = 'account/dashboard/order_list.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        user_id = self.request.user.id
+        orders = Order.objects.filter(user_id=user_id).filter(billing_status=True)
+        return orders
+    

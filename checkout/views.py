@@ -137,4 +137,6 @@ def payment_complete(request):
 def payment_successful(request):
     basket = Basket(request)
     basket.clear()
-    return render(request, 'checkout/payment_successful.html', {})
+
+    messages.success(request, 'Payment Successful!')
+    return HttpResponseRedirect(reverse('account:order_list'))

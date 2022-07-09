@@ -17,7 +17,7 @@
           {% for image in product.product_image.all  %}
             {% if image.is_feature %}
             <a href="{{ product.get_absolute_url }}"">
-              <img class="shadow card-img-top"  src="{{ image.image.url }}"
+              <img class="shadow img-fluid"  style="min-width: 7vw; width:167px; height:250px; object-fit:cover"  src="{{ image.image.url }}"
               alt="{{ image.image.alt_text }}" />
             </a>
             

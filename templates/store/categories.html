@@ -31,7 +31,7 @@
                 <a class="text-dark text-decoration-none" href="{{ product.get_absolute_url }}">
 
                   {% for image in product.product_image.all %}
-                  <img class='shadow card-img-top' alt="Responsive image" src="{{ image.image.url }}"
+                  <img class='shadow card-img-top' style="min-width: 7vw; width:167px; height:250px" alt="Responsive image" src="{{ image.image.url }}"
                     alt="{{ image.image.alt_text }}">
                   {% endfor %}
 
