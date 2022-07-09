@@ -1,8 +1,11 @@
 /* Bootstrap Over-ride */
 
 @media (min-width: 1000px){
+
+
     .container{
         max-width: 1000px;
+        
     }
 }
 @media (max-width: 1200px){
@@ -12,9 +15,11 @@
     }
 }
 
+
 .dropdown-toggle::after {
     display: none;
 }
+
 .dropdown-menu {
     top:58px;
     left:0px;
@@ -25,14 +30,15 @@
     background-color: #E4F1FF;
 }
 
-.card-img-top {
-    min-height: 250px;
-    max-height: 300px;
-    object-fit: cover;
 
+.card-img-top {
+    object-fit: cover; /*this makes the image in src fit to the size specified below*/
+    width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+    height: 100%;
+    min-width: 7vw;
 }
 
-.card{
+.card {
     margin-left: 15px;
 }
 
@@ -43,6 +49,8 @@
     word-break: break-word;
 
 }
+
+
 
 .btn:focus,
 .btn:active {
