@@ -15,8 +15,8 @@
         {% for image in product.product_image.all %}
 
         {% if image.is_feature %}
-        <img src="{{ image.image.url }}" alt="{{ image.image.alt_text }}" class="img-fluid mx-auto d-block shadow"
-          width="250px">
+        <img src="{{ image.image.url }}" alt="{{ image.image.alt_text }}" class="mx-auto d-block shadow"
+        style="min-width: 7vw; width:267px; height:350px">
         {% else %}
         <img src="{{ image.image.url }}" alt="{{ image.image.alt_text }}" class="img-fluid d-block-inline pt-3"
           width="100px">

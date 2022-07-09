@@ -12,12 +12,12 @@
     {% for product in wishlist  %}
   
     <div class="card mb-3 rounded-0">
-      <div class="row g-0">
+      <div class="row g-5">
         <div class="col-md-2">
           {% for image in product.product_image.all  %}
             {% if image.is_feature %}
             <a href="{{ product.get_absolute_url }}"">
-              <img class="shadow card-img-top" width="135px" src="{{ image.image.url }}"
+              <img class="shadow card-img-top"  src="{{ image.image.url }}"
               alt="{{ image.image.alt_text }}" />
             </a>
             
@@ -25,7 +25,7 @@
           {% endfor %}
         </div>
         <div class="col-md-10">
-          <div class="card-body">
+          <div class="card-body pl-5">
             <h5 class="card-title">{{product.title}}</h5>
             <p class="card-text">{{product.description|slice:":220"}}...</p>
             <p class="card-text"><small class="text-muted">${{product.regular_price}}</small></p>
