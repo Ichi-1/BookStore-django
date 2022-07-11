@@ -13,17 +13,17 @@ class HomePageView(ListView):
     model = Product
     template_name = "store/index.html"
     context_object_name = "products"
+    paginate_by = 5
 
     def get_queryset(self):
         qs = Product.objects.prefetch_related('product_image').filter(is_active=True)
         return qs
     
-        
-        
 
 class ProductByCategoryListView(ListView):
     template_name = "store/categories.html"
     context_object_name = "products"
+    paginate_by = 5
 
     def get_queryset(self):
         """
@@ -44,8 +44,6 @@ class ProductByCategoryListView(ListView):
 
         context.update({"category_name": category_name})
         return context
-
-
 
 
 class ProductDetailView(DetailView):
