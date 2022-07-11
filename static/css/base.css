@@ -119,3 +119,19 @@ html, body, p, div{
     color: #fff;
     background-size:100%;
 }
+
+
+/* Pagination */
+.page-link {
+    color: black;
+
+    
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+    box-shadow: none !important;
+    
+  
+}

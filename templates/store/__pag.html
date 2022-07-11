@@ -1,11 +1,33 @@
-{% for i in paginator.page_range %}
-{% if page_obj.number == i%}
-<li class="pagination__item active">
-  <a class="pagination__link" href="#">{{ i }}</a>
-</li>
-{% elif i > page_obj.number|add:'-4' and i < page_obj.number|add:'4' %}
-<li class="pagination__item">
-  <a class="pagination__link" href="?page{{ i }}">{{ i }}</a>
-</li>
-{% endif %}
-{% endfor %}
+<!-- Pagination -->
+<div>
+  {% if page_obj.has_other_pages %}
+  <ul class="pagination justify-content-center">
+    <!-- Previous -->
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">&laquo;</a>
+    </li>
+    {% endif %}
+
+    {% for page in paginator.page_range %}
+    {% if page_obj.number == page %}
+    <li class="page-item active">
+      <span class="page-link">{{page}}</span>
+    </li>
+    {% else %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{page}}">{{page}}</a>
+    </li>
+    {% endif %}
+
+    {% endfor %}
+
+    <!-- Next -->
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+    </li>
+    {% endif %}
+  </ul>
+  {% endif %}
+</div>
