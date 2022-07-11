@@ -1,11 +1,9 @@
 from django.http import Http404
-from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, ListView
 
 from .models import (
     Category, Product, 
-    ProductSpecification, 
-    ProductSpecificationValue
+    ProductSpecificationValue,
 )
 
 
@@ -62,13 +60,17 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         product_id = self.object.pk
+        user = self.request.user
 
         # check if product already added to wish list
         # then change the context data to button
-        in_wish_list = Product.objects.filter(
-                users_wishlist=self.request.user, 
-                id=product_id
-            )
+        if user.is_authenticated:
+            in_wish_list = Product.objects.filter(
+                    users_wishlist=user, 
+                    id=product_id
+                )
+        else:
+            in_wish_list = None
 
         author = ProductSpecificationValue.objects\
             .filter(specification_id=3)\

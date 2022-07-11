@@ -21,11 +21,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # my apps
-    'store',
-    'store_basket',
-    'account',
-    'orders',
-    'checkout',
+    'apps.store',
+    'apps.basket',
+    'apps.account',
+    'apps.orders',
+    'apps.checkout',
 
     # 3rd party
     'crispy_forms',
@@ -55,8 +55,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'store.context_processors.categories',
-                'store_basket.context_processors.basket',
+                'apps.store.context_processors.categories',
+                'apps.basket.context_processors.basket',
             ],
         },
     },

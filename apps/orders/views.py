@@ -1,10 +1,6 @@
-from urllib import response
-from django.shortcuts import render
 from django.http.response import JsonResponse
-
-from store_basket.basket import Basket
+from apps.basket.basket import Basket
 from .models import Order, OrderItem
-
 
 def add(request):
     basket = Basket(request)

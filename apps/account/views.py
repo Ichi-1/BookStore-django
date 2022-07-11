@@ -18,9 +18,9 @@ from django.views.generic import (
     RedirectView
 )
 
-from orders.models import Order
-from account.models import Customer, Address
-from store.models import Product
+from apps.orders.models import Order
+from apps.account.models import Customer, Address
+from apps.store.models import Product
 from .forms import (
     SignUpForm, 
     UserAccountUpdateForm, 

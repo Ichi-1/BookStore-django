@@ -2,7 +2,7 @@ from decimal import Decimal
 from django.db import models
 from django.conf import settings
 
-from store.models import Product
+from apps.store.models import Product
 
 class Order(models.Model):
     user = models.ForeignKey(

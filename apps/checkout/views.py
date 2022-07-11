@@ -11,9 +11,9 @@ from paypalcheckoutsdk.orders import OrdersGetRequest
 
 from .paypal import PayPalClient
 from .models import DeliveryOptions
-from orders.models import Order, OrderItem
-from store_basket.basket import Basket
-from account.models import Address
+from apps.orders.models import Order, OrderItem
+from apps.basket.basket import Basket
+from apps.account.models import Address
 
 def p():
     pass

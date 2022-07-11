@@ -16,7 +16,7 @@
 
         {% if image.is_feature %}
         <img src="{{ image.image.url }}" alt="{{ image.image.alt_text }}" class="mx-auto d-block shadow"
-        style="min-width: 7vw; width:267px; height:350px">
+          style="min-width: 7vw; width:267px; height:350px">
         {% else %}
         <img src="{{ image.image.url }}" alt="{{ image.image.alt_text }}" class="img-fluid d-block-inline pt-3"
           width="100px">
@@ -47,7 +47,7 @@
             </span>
           </li>
         </ul>
-      
+
         <div class="pt-5 d-flex d-flex-inline justify-content-between">
           <div><span class="h5">${{ product.regular_price }}</span>
             <p class="text-muted">includes tax</p>
@@ -65,45 +65,49 @@
         </div>
 
         <div class="col">
-          <div class="row p-3">
-            <div class="col-15 text-end">
-              <button type="button" id="add-button" value="{{ product.id }}" class="btn btn-success fw500 fw-bold">Add to
-                basket
+
+          <div class="text-end">
+            <button type="button" id="add-button" value="{{ product.id }}" class="btn btn-success fw500 fw-bold">Add to
+              basket
             </button>
-            {% if in_wish_list %}
-            <a href="{% url 'account:add_to_wishlist' product.id %}" class="btn btn-outline-secondary fw500 fw-bold" role="button" aria-pressed="false">
-               Remove from Wish List
+            {% if user.is_authenticated %}
+            {% if in_wish_list%}
+            <a href="{% url 'account:add_to_wishlist' product.id %}" class="btn btn-outline-secondary fw500 fw-bold"
+              role="button" aria-pressed="false">
+              Remove from Wish List
             </a>
             {% else %}
-            <a href="{% url 'account:add_to_wishlist' product.id %}" class="btn btn-outline-secondary fw500 fw-bold" role="button" aria-pressed="false">
-                Add to Wish List
+            <a href="{% url 'account:add_to_wishlist' product.id %}" class="btn btn-outline-secondary fw500 fw-bold"
+              role="button" aria-pressed="false">
+              Add to Wish List
             </a>
             {% endif %}
-            
+            {% endif %}
+
           </div>
+
         </div>
       </div>
     </div>
   </div>
-</div>
-<script>
-  $(document).on('click', '#add-button', function (e) {
-    e.preventDefault();
-    // console.log($('#select option:selected').text())
-    $.ajax({
-      type: 'POST',
-      url: '{% url "basket:basket-add" %}',
-      data: {
-        product_id: $('#add-button').val(),
-        product_qty: $('#select option:selected').text(),
-        csrfmiddlewaretoken: "{{csrf_token}}",
-        action: 'post'
-      },
-      success: function (json) {
-        document.getElementById('basket-qty').innerHTML = json.qty
-      },
-      error: function (xhr, err_msg, err) {},
+  <script>
+    $(document).on('click', '#add-button', function (e) {
+      e.preventDefault();
+      // console.log($('#select option:selected').text())
+      $.ajax({
+        type: 'POST',
+        url: '{% url "basket:basket-add" %}',
+        data: {
+          product_id: $('#add-button').val(),
+          product_qty: $('#select option:selected').text(),
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+        },
+        success: function (json) {
+          document.getElementById('basket-qty').innerHTML = json.qty
+        },
+        error: function (xhr, err_msg, err) {},
+      })
     })
-  })
-</script>
-{% endblock %}
+  </script>
+  {% endblock %}

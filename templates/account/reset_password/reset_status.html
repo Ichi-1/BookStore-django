@@ -19,7 +19,7 @@
 
   {% if 'complete' in request.get_full_path %}
   <h3 class="mb-4 fw-bold">Password Reset Success</h3>
-  <a href="{% url 'account:login' %}">Login</a>
+  <a class="fw-bold" style="text-decoration:none;" href="{% url 'account:login' %}">Click to Login</a>
   {% endif%}
 </div>
 

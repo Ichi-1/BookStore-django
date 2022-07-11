@@ -1,6 +1,6 @@
 from decimal import Decimal
-from checkout.models import DeliveryOptions
-from store.models import Product
+from apps.checkout.models import DeliveryOptions
+from apps.store.models import Product
 
 
 class Basket():

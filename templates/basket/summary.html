@@ -20,11 +20,11 @@
     {% else %}
     <div class="col-12 bg-light p-3 d-flex justify-content-between">
       <div class="d-flex d-flex-inline">
-        <div class="pe-3">Order</div>
+        <div class="pe-3"></div>
         <div class="dropdown">
           <a class="text-reset text-decoration-none dropdown-toggle" href="#" role="link" id="dropdownLink"
             data-bs-toggle="dropdown" aria-expanded="false">
-            Shipping options
+            Available shipping
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
               class="bi bi-chevron-down" viewBox="0 0 16 16">
               <path fill-rule="evenodd"
@@ -86,10 +86,12 @@
                 <option value="">3</option>
                 <option value="">4</option>
               </select>
-              <a type="button" id="update-button" data-index="{{product.id}}"
-                class="update-button text-decoration-none small ps-3">Update</a>
-              <a type="button" id="delete-button" data-index="{{product.id}}"
+           
+                <a type="button" id="update-button" data-index="{{product.id}}"
+                class="update-button text-decoration-none small ps-3">Update</a> |
+                <a type="button" id="delete-button" data-index="{{product.id}}"
                 class="delete-button text-decoration-none small">Delete</a>
+              
             </div>
           </div>
         </div>

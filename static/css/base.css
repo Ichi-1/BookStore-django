@@ -1,8 +1,6 @@
 /* Bootstrap Over-ride */
 
 @media (min-width: 1000px){
-
-
     .container{
         max-width: 1000px;
         
@@ -124,14 +122,11 @@ html, body, p, div{
 /* Pagination */
 .page-link {
     color: black;
-
-    
     padding: 8px 16px;
     text-decoration: none;
     transition: background-color .3s;
     border: 1px solid #ddd;
     margin: 0 4px;
     box-shadow: none !important;
-    
   
 }

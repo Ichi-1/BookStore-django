@@ -6,12 +6,12 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('store.urls', namespace='store')),
-    path('basket/', include('store_basket.urls', namespace='basket')),
-    path('account/', include('account.urls', namespace='account')),
-    path('orders/', include('orders.urls', namespace='orders')),
-    path('checkout/', include('checkout.urls', namespace='checkout')),
-    path('__debug__/', include('debug_toolbar.urls')),
+    path('', include('apps.store.urls', namespace='store')),
+    path('basket/', include('apps.basket.urls', namespace='basket')),
+    path('account/', include('apps.account.urls', namespace='account')),
+    path('orders/', include('apps.orders.urls', namespace='orders')),
+    path('checkout/', include('apps.checkout.urls', namespace='checkout')),
+    # path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 

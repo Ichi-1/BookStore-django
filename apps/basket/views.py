@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from .basket import Basket
-from store.models import Product
+from apps.store.models import Product
 
 
 def basket_summary(request):
