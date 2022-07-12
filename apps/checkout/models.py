@@ -56,7 +56,7 @@ class DeliveryOptions(models.Model):
         verbose_name_plural = _('Delivery Options')
 
     def __str__(self):
-        return self.delivery_name
+        return self.name
 
 
 class PaymentSelection(models.Model):

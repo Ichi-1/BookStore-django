@@ -64,11 +64,16 @@ def delivery_address(request):
         messages.warning(request, 'Please select delivery option')
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     
-    if 'address' not in session:
-        session['address'] = {'address_id': str(addresses[0].id)}
+    if addresses.exists():
+
+        if 'address' not in session:
+            session['address'] = {'address_id': str(addresses[0].id)}
+        else:
+            session['address']['address_id'] = str(addresses[0].id)
+            session.modified = True
     else:
-        session['address']['address_id'] = str(addresses[0].id)
-        session.modified = True
+        messages.warning(request, 'You have no available delivery addresses')
+        return HttpResponseRedirect(reverse('account:addresses'))
 
     return render(
         request, 

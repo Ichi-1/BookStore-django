@@ -71,23 +71,34 @@ class ProductDetailView(DetailView):
                 )
         else:
             in_wish_list = None
+            
 
         author = ProductSpecificationValue.objects\
+            .filter(specification_id=1)\
+            .get(product_id=product_id)
+
+        language = ProductSpecificationValue.objects\
+            .filter(specification_id=2)\
+            .get(product_id=product_id)
+        
+        pages = ProductSpecificationValue.objects\
             .filter(specification_id=3)\
             .get(product_id=product_id)
 
-        pages = ProductSpecificationValue.objects\
-            .filter(specification_id=2)\
+        isbn = ProductSpecificationValue.objects\
+            .filter(specification_id=4)\
             .get(product_id=product_id)
 
-        isbn = ProductSpecificationValue.objects\
-            .filter(specification_id=1)\
+        reviews = ProductSpecificationValue.objects\
+            .filter(specification_id=4)\
             .get(product_id=product_id)
 
         context.update({
                 'author': author, 
-                'pages': pages, 
-                'isbn': isbn, 
+                'language': language, 
+                'pages': pages,
+                'isbn':isbn,
+                'reviews': reviews,
                 'in_wish_list': in_wish_list,
             }
         )

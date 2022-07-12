@@ -27,23 +27,33 @@
       </div>
       <div class="col-md-7 col-lg-7 ps-md-3">
         <h1 class="mb-0 h4 fw-bold">{{ product.title }}</h1>
-
         <p><span class="text-muted"> by {{ author }}</span></p>
-
         <p>{{ product.description|slice:":355" }}...</p>
         <hr>
-        <h6 class='fw-bold'>Product details</h6>
+        <h6 class='fw-bold'>Product details </h6>
         <ul style="list-style-type: none;">
           <li>
             <span class="a-list-item">
-              <span class="fw-bold">Paperback:</span>
-              <span>{{ pages }} pages</span>
+              <span class="fw-bold">Language:</span>
+              <span>{{ language }}</span>
+            </span>
+          </li>
+          <li>
+            <span class="a-list-item">
+              <span class="fw-bold">Pages:</span>
+              <span>{{ pages }}</span>
             </span>
           </li>
           <li>
             <span class="a-list-item">
               <span class="fw-bold">ISBN:</span>
               <span>{{ isbn }}</span>
+            </span>
+          </li>
+          <li>
+            <span class="a-list-item">
+              <span class="fw-bold">Reviews:</span>
+              <span>#5</span>
             </span>
           </li>
         </ul>
@@ -89,7 +99,18 @@
         </div>
       </div>
     </div>
+
+  <hr/>
+  <div class="container">
+    <div class="col-10">
+      <div class="card-body ps-0 ps-md-1">
+        <h1 class="h5 fw-bold">Customer reviews</h1>
+        <p class="card-text small text-muted">Start</p>
+      </div>
+    </div>
   </div>
+
+
   <script>
     $(document).on('click', '#add-button', function (e) {
       e.preventDefault();
