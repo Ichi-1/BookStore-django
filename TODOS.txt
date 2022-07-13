@@ -1,6 +1,0 @@
-1. Rating\Reviews system
-2. Real-world SMTP and mail activation service
-3. Support Live Chat
-4. Searching bar
-5. Refactoring ProductDetailView. DRY
-6. Login & Security Options

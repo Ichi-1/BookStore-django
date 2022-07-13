@@ -41,7 +41,6 @@
 }
 
 .card-title{
-    font-size:19px;
     font-weight: bold;
     word-break: break-all;
     word-break: break-word;
@@ -56,10 +55,11 @@
 }
 
 /* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 html, body, p, div{
     letter-spacing: -0.02px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Nunito', sans-serif;
+
+
 }
 .fs12{
     font-size: 12px;

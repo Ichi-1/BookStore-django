@@ -1,0 +1,12 @@
+-Rating\Reviews system
+-Real-world SMTP and mail activation service
+-Live Chat Help/Support (Channels)
+-Searching bar 
+-Refactoring ProductDetailView. DRY
+-Login & Security Options
+-'Read More' btn in Detail Template
+
+
+-PostgreSQL (via Docker deployment configuration)
+-Cache
+

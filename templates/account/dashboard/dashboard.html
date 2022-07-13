@@ -12,9 +12,9 @@
   </div>
 
   <hr>
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+  <div class="row">
     <!-- Orders -->
-    <div class="col">
+    <div class="col-md-6">
       <a href="{% url 'account:order_list' %}" class="text-reset text-decoration-none" role="button" style="max-width: 540px;">
         <div class="card mb-3">
           <div class="row g-0">
@@ -36,7 +36,7 @@
       </a>
     </div>
     <!-- Security -->
-    <div class="col">
+    <div class="col-md-6">
       <a href="{% url 'account:update' user.pk %}" class="text-reset text-decoration-none" role="button"
         style="max-width: 540px;">
         <div class="card mb-3">
@@ -61,7 +61,7 @@
       </a>
     </div>
     <!-- Addresses -->
-    <div class="col">
+    <div class="col-md-6">
       <a href="{% url 'account:addresses' %}" class="text-reset text-decoration-none" role="button"
         style="max-width: 540px;">
         <div class="card mb-3">
@@ -84,7 +84,7 @@
       </a>
     </div>
     <!-- Wish List -->
-    <div class="col">
+    <div class="col-md-6">
       <a href="{% url 'account:wishlist' %}" class="text-reset text-decoration-none" role="button" style="max-width: 540px;">
         <div class="card mb-3">
           <div class="row g-0">

@@ -22,20 +22,21 @@
       {% if not products %}
       <div class="pb-3 h5">There are currently no products active</div>
       {% else %}
-      <div class="pb-2 fw-bold h5">Recently added books</div>
+      <div class="pb-2 fw-bold h2">Recently added books</div>
       {% endif %}
+      <hr>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
         {% for product in products %}
         <div class="col">
-          <div class="card border-0">
+          <div class="card border-0" style="display:block;">
             <a class="text-dark text-decoration-none" href="{{ product.get_absolute_url }}">
               {% for image in product.product_image.all %}
 
               <img class='shadow img-fluid' style="min-width: 7vw; width:155px; height:250px; border-radius:3px"
                 alt="Responsive image" src="{{ image.image.url }}" alt="{{ image.image.alt_text }}">
               {% endfor %}
-              <div class="card-body px-0 text-center">
-                <p class="card-title">
+              <div class="card-body px-0 text-center text-muted">
+                <p class="card-title" style="width: auto;">
                   {% if product.title|length >= 25 %}
                   {{ product.title|slice:":25" }}...
                   {% else %}

@@ -33,8 +33,9 @@
           </a>
 
           <ul class="dropdown-menu" aria-labelledby="dropdownLink">
-            <li class="item small">Next day delivery</li>
-            <li class="item small">Premimum delivery</li>
+            {% for option in delivery_options %}
+            <li class="item small mb-1">{{ option.name }}</li>
+            {% endfor %}
           </ul>
         </div>
       </div>
@@ -52,7 +53,6 @@
     <div class="col-md-5 col-lg-4 order-md-last p-0 order-3">
       <div class="d-grid gap-2 ">
         <a role="button" href="{% url 'checkout:delivery_options' %}" class="btn btn-success fw-bold" type="button">Checkout</a>
-        <button class="btn btn-light" type="button">Save for later</button>
       </div>
     </div>
     <div class="col-md-7 col-lg-8 p-0">
