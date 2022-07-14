@@ -9,7 +9,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ! SECURITY WARNING: don't run with debug turned on in production!
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ('vert-bastille-12895.herokuapp.com', '127.0.0.1')
 
 
 INSTALLED_APPS = [
@@ -35,12 +36,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -76,6 +79,18 @@ DATABASES = {
 }
 
 
+if not DEBUG:
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': 5432,
+    }
+}
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -97,10 +112,13 @@ USE_I18N = True
 USE_TZ = True
 
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
-]
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"))
+
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -120,9 +138,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # settings for stripe api
 # stripe listen --forward-to 127.0.0.1:8000/payment/webhook/
 # os.environ.setdefault('STRIPE_PUBLICK_KEY', STRIPE_PUBLICK_KEY)
-STRIPE_ENDPOINT_SECRET = config('STRIPE_ENDPOINT_SECRET')
-STRIPE_PUBLICK_KEY = config('STRIPE_PUBLICK_KEY')
-STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 
 
 # PayPal settings
