@@ -71,13 +71,6 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 
 if not DEBUG:
     DATABASES = {
@@ -89,7 +82,16 @@ if not DEBUG:
         'HOST': config('DB_HOST'),
         'PORT': 5432,
     }
+}   
+else:
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -117,7 +119,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-
 
 
 MEDIA_URL = '/media/'
