@@ -4,7 +4,7 @@
 
 
 {% block sub_content %}
-<form class="account-form rounded" action="{% url 'account:login' %}" method="post">
+<form class="account-form p-4 rounded" action="{% url 'account:login' %}" method="post">
 
     {% csrf_token %}
     <h3 class="mb-4 fw-bold">Sign In</h3>

@@ -1,4 +1,4 @@
-from .core_settings import (
+from core.settings import (
     DEBUG, MIDDLEWARE, INSTALLED_APPS
 )
 
