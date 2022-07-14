@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ('vert-bastille-12895.herokuapp.com', '127.0.0.1')
+ALLOWED_HOSTS = ('ichi1-bookstore.herokuapp.com', '127.0.0.1')
 
 
 INSTALLED_APPS = [
