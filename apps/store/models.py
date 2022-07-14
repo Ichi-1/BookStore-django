@@ -215,7 +215,7 @@ class ProductImage(models.Model):
         null=True,
         blank=True,
     )
-    is_feature = models.BooleanField(default=True)
+    is_feature = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_ap = models.DateTimeField(auto_now=True)
 

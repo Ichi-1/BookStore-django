@@ -86,17 +86,12 @@ class ProductDetailView(DetailView):
             specification_id=4
         ).get(product_id=product_id)
 
-        reviews = ProductSpecificationValue.objects.filter(
-            specification_id=4
-        ).get(product_id=product_id)
-
         context.update(
             {
                 "author": author,
                 "language": language,
                 "pages": pages,
                 "isbn": isbn,
-                "reviews": reviews,
                 "in_wish_list": in_wish_list,
             }
         )
