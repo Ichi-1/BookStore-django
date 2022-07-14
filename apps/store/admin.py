@@ -1,17 +1,17 @@
-from django import forms
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 
 from .models import (
-    Category, 
-    Product, 
+    Category,
+    Product,
     ProductType,
-    ProductImage, 
-    ProductSpecification, 
+    ProductImage,
+    ProductSpecification,
     ProductSpecificationValue,
 )
 
 admin.site.register(Category, MPTTModelAdmin)
+
 
 class ProductSpecificationInline(admin.TabularInline):
     model = ProductSpecification
@@ -19,7 +19,7 @@ class ProductSpecificationInline(admin.TabularInline):
 
 @admin.register(ProductType)
 class ProductTypeAdmin(admin.ModelAdmin):
-    inlines = [ 
+    inlines = [
         ProductSpecificationInline
     ]
 

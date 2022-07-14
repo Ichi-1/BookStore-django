@@ -24,17 +24,13 @@ class CustomAccountManager(BaseUserManager):
         except ValidationError:
             raise ValueError(_('You must provide a valid email'))
 
+    def create_superuser(self, email, name, password, **other_fields):
 
-    def create_superuser(self, email, name, password,
-        **other_fields,
-    ):  
         if email:
             email = self.normalize_email(email)
             self.email_validation(email)
         else:
-            raise ValueError(_(
-                'Superuser Account: You must provide a email'
-            ))
+            raise ValueError(_('Superuser Account: You must provide a email'))
 
         other_fields.setdefault("is_staff", True)
         other_fields.setdefault("is_superuser", True)
@@ -46,20 +42,13 @@ class CustomAccountManager(BaseUserManager):
             raise ValueError("Superuser must be assigned to is_superuser=True")
         return self.create_user(email, name, password, **other_fields)
 
-
-    def create_user(self, email, name, password,
-        **other_fields,
-    ):
-
+    def create_user(self, email, name, password, **other_fields):
         if email:
             email = self.normalize_email(email)
             self.email_validation(email)
         else:
-            raise ValueError(_(
-                'Customer Account: You must provide a email'
-            ))
+            raise ValueError(_('Customer Account: You must provide a email'))
 
-        
         email = self.normalize_email(email)
         user = self.model(email=email, name=name, **other_fields)
         user.set_password(password)
@@ -101,13 +90,13 @@ class Customer(AbstractBaseUser, PermissionsMixin):
 
 class Address(models.Model):
     id = models.UUIDField(
-        primary_key=True, 
-        default=uuid.uuid4, 
+        primary_key=True,
+        default=uuid.uuid4,
         editable=False
     )
     customer = models.ForeignKey(
-        Customer, 
-        verbose_name=_('Customer'), 
+        Customer,
+        verbose_name=_('Customer'),
         on_delete=models.CASCADE
     )
     full_name = models.CharField(max_length=150)
@@ -124,7 +113,6 @@ class Address(models.Model):
     class Meta:
         verbose_name = 'Address'
         verbose_name_plural = 'Addresses'
-    
+
     def __str__(self):
         return f'{self.full_name} Address'
-        

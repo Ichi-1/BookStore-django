@@ -8,7 +8,6 @@ from tests.factories import (
     ProductSpecificationFactory,
     ProductSpecificationValueFactory,
     ProductFactory,
-   
 )
 
 
@@ -19,7 +18,6 @@ register(ProductSpecificationFactory)
 register(ProductSpecificationValueFactory)
 register(CustomerFactory)
 register(AddressFactory)
-
 
 
 @pytest.fixture

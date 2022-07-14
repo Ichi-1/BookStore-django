@@ -15,7 +15,7 @@
         {% for image in product.product_image.all %}
 
         {% if image.is_feature %}
-        <img src="{{ image.image.url }}" alt="{{ image.image.alt_text }}" class="mx-auto d-block shadow"
+        <img src="{{ image.image.url }}" alt="{{ image.image.alt_text }}" class="mx-auto d-block shadow-lg"
           style="min-width: 7vw; width:267px; height:350px">
         {% else %}
         <img src="{{ image.image.url }}" alt="{{ image.image.alt_text }}" class="img-fluid d-block-inline pt-3"
@@ -76,22 +76,38 @@
 
         <div class="col">
 
+            <!-- TODO  1.FlexBox 2.Add Review button 3. Make wishlish button availiable to guest but redirect to login within hit -->
+            <!-- <div class="d-flex flex-column">
+                <div class="p-2"><button type="button" id="add-button" value="{{ product.id }}" class="btn btn-success fw500 fw-bold">Add to
+              basket
+            </button></div>
+                <div class="p-2">Flex item 2</div>
+                <div class="p-2">Flex item 3</div>
+              </div> -->
+
           <div class="text-end">
             <button type="button" id="add-button" value="{{ product.id }}" class="btn btn-success fw500 fw-bold">Add to
               basket
             </button>
-            {% if user.is_authenticated %}
-            {% if in_wish_list%}
-            <a href="{% url 'account:add_to_wishlist' product.id %}" class="btn btn-outline-secondary fw500 fw-bold"
-              role="button" aria-pressed="false">
-              Remove from Wish List
-            </a>
-            {% else %}
-            <a href="{% url 'account:add_to_wishlist' product.id %}" class="btn btn-outline-secondary fw500 fw-bold"
+            {% if user.is_anonymous %}
+            <a href="{% url 'account:login' %}" class="btn btn-outline-secondary fw500 fw-bold"
               role="button" aria-pressed="false">
               Add to Wish List
             </a>
-            {% endif %}
+
+            {% elif user.is_authenticated %}
+                {% if in_wish_list %}
+                <a href="{% url 'account:add_to_wishlist' product.id %}" class="btn btn-outline-secondary fw500 fw-bold"
+                role="button" aria-pressed="false">
+                Remove from Wish List
+                </a>
+                {% else %}
+                <a href="{% url 'account:add_to_wishlist' product.id %}" class="btn btn-outline-secondary fw500 fw-bold"
+                role="button" aria-pressed="false">
+                Add to Wish List
+                </a>
+                {% endif %}
+        
             {% endif %}
 
           </div>
@@ -100,7 +116,8 @@
       </div>
     </div>
 
-  <hr/>
+    <!-- Customers reviews sesction ? -->
+  <!-- <hr/>
   <div class="container">
     <div class="col-10">
       <div class="card-body ps-0 ps-md-1">
@@ -108,7 +125,7 @@
         <p class="card-text small text-muted">Start</p>
       </div>
     </div>
-  </div>
+  </div> -->
 
 
   <script>

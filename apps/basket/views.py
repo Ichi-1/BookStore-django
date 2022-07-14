@@ -1,6 +1,5 @@
-from django.contrib import messages
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, render
 from .basket import Basket
 from apps.store.models import Product
 
@@ -23,7 +22,7 @@ def basket_add(request):
 
         basket_qty = basket.__len__()
 
-        response = JsonResponse({"qty": basket_qty,})
+        response = JsonResponse({"qty": basket_qty})
         return response
 
 
@@ -36,11 +35,13 @@ def basket_delete(request):
         basket_qty = basket.__len__()
         basket_subtotal = basket.get_total_price()
 
-        response = JsonResponse({'qty': basket_qty, 'subtotal': basket_subtotal})
+        response = JsonResponse({
+            'qty': basket_qty,
+            'subtotal': basket_subtotal
+        })
         return response
 
-        
-    
+
 def basket_update(request):
     basket = Basket(request)
     if request.POST.get('action') == 'post':
@@ -48,19 +49,11 @@ def basket_update(request):
         product_qty = int(request.POST.get('product_qty'))
         basket.update(product_id=product_id, qty=product_qty)
 
-
         basket_qty = basket.__len__()
         basket_subtotal = basket.get_total_price()
 
-        response = JsonResponse({'qty': basket_qty, 'subtotal': basket_subtotal})
+        response = JsonResponse({
+            'qty': basket_qty,
+            'subtotal': basket_subtotal
+        })
         return response
-
-
-
-
-        
-# get_object_or_400 insead of :
-        # try:
-        #     product_id = Product.objects.get(id=product_id)
-        # except:
-        #     raise Http404()

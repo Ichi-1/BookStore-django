@@ -23,8 +23,8 @@ class DeliveryOptions(models.Model):
         max_digits=5,
         decimal_places=2,
         error_messages={
-            'name':{
-                'max_length':_('The price must be between 0 and 999.99'),
+            'name': {
+                'max_length': _('The price must be between 0 and 999.99'),
             },
         },
     )
@@ -73,6 +73,6 @@ class PaymentSelection(models.Model):
     class Meta:
         verbose_name = _('Payment Selection')
         verbose_name_plural = _('Payment Selections')
-    
+
     def __str__(self):
         return self.name

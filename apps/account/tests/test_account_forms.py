@@ -5,7 +5,6 @@ from apps.account.forms import (
 )
 
 
-
 @pytest.mark.parametrize(
     "full_name, phone, address_line, address_line2, town_city, postcode, validity",
     [
@@ -13,7 +12,10 @@ from apps.account.forms import (
         ("", "02343343434", "add1", "add2", "town", "postcode", False),
     ],
 )
-def test_customer_add(full_name, phone, address_line, address_line2, town_city, postcode, validity):
+def test_customer_add(
+        full_name, phone, address_line,
+        address_line2, town_city, postcode, validity
+):
     form = UserAddressForm(
         data={
             "full_name": full_name,
@@ -42,7 +44,6 @@ def test_customer_create_address(client, customer):
         },
     )
     assert response.status_code == 302
-
 
 
 @pytest.mark.parametrize(

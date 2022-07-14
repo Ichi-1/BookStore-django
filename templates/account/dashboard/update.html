@@ -5,7 +5,7 @@
 
 {% block sub_content %}
 <h3 class="mb-3 fw-bold">Enter new data and save changes</h3>
-<form method="POST" lass="account-form px-4 pt-2" enctype="multipart/form-data">
+<form class="account-form rounded" method="post">
   {% csrf_token %}
   {{ form|crispy }}
   <button class="btn btn-primary btn-block py-2 mb-4 mt-5 fw-bold w-100" type="submit" value="Save changes">
@@ -15,7 +15,7 @@
 
 <hr>
 
-<form class="account-form px-4" action="{% url 'account:deactivate' %}" method="post">
+<form class="account-form" action="{% url 'account:deactivate' %}" method="post">
   {% csrf_token %}
   <p class=" h3 pt-4 font-weight-bold">Deactivate Account</p>
   <p>Are you sure you want to deactivate your account?</p>

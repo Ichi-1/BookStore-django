@@ -33,8 +33,8 @@
                     alt="{{ image.image.alt_text }}">
                   {% endfor %}
 
-                  <div class="card-body px-0 text-center">
-                <p class="card-title">
+                  <div class="card-body text-center px-1 text-muted" style="font-size:17px;">
+                    <p class="card-title text-center">
                   
                   {% if product.title|length >= 25 %}
                   {{ product.title|slice:":25" }}...

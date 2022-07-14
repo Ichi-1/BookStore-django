@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('a098c8d9c3c6c6ac2ede4a4eb2ed/', admin.site.urls),
     path('', include('apps.store.urls', namespace='store')),
     path('basket/', include('apps.basket.urls', namespace='basket')),
     path('account/', include('apps.account.urls', namespace='account')),
@@ -14,10 +14,8 @@ urlpatterns = [
     # path('__debug__/', include('debug_toolbar.urls')),
 ]
 
-
-
 if settings.DEBUG:
     urlpatterns += static(
-        settings.MEDIA_URL, 
+        settings.MEDIA_URL,
         document_root=settings.MEDIA_ROOT
     )

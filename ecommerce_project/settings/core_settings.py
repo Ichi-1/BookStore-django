@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     # 3rd party
     'crispy_forms',
     'mptt',
+
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,7 @@ TEMPLATES = [
                 'apps.store.context_processors.categories',
                 'apps.basket.context_processors.basket',
                 'apps.basket.context_processors.delivery_options'
-            ],  
+            ],
         },
     },
 ]
@@ -128,3 +129,18 @@ STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID')
 PAYPAL_CLIENT_SECRET = config('PAYPAL_CLIENT_SECRET')
 
+
+# security settings for prod
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSIONS_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    X_FRAME_OPTIONS = "DENY"
+
+    ALLOWED_HOSTS = ['', '127.0.0.1']

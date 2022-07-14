@@ -2,6 +2,7 @@ from django.http.response import JsonResponse
 from apps.basket.basket import Basket
 from .models import Order, OrderItem
 
+
 def add(request):
     basket = Basket(request)
     if request.POST.get('action') == 'post':
@@ -14,7 +15,7 @@ def add(request):
             pass
         else:
             order = Order.objects.create(
-                user_id=user_id, 
+                user_id=user_id,
                 full_name='name',
                 address1='address1',
                 address2='address2',
@@ -22,7 +23,7 @@ def add(request):
                 order_key=order_key
             )
             order_id = order.pk
-            # loop through session data, 
+            # loop through session data,
             # collecting each item the user has inside of their session
             for item in basket:
                 OrderItem.objects.create(
@@ -31,11 +32,10 @@ def add(request):
                     price=item['price'],
                     quantity=item['qty']
                 )
-            
+
             response = JsonResponse({'success': 'Return Something'})
             return response
 
 
 def payment_confirmation(data):
     Order.objects.filter(order_key=data).update(billing_status=True)
-

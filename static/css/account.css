@@ -23,4 +23,6 @@
     transform: scaleX(1);
 }
 
-
+.account-form {
+    box-shadow: none !important;
+}

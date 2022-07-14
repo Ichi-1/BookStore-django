@@ -1,22 +1,20 @@
 import json
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import ListView
-
 from paypalcheckoutsdk.orders import OrdersGetRequest
 
-from .paypal import PayPalClient
-from .models import DeliveryOptions
-from apps.orders.models import Order, OrderItem
-from apps.basket.basket import Basket
 from apps.account.models import Address
+from apps.basket.basket import Basket
+from apps.orders.models import Order, OrderItem
 
-def p():
-    pass
+from .models import DeliveryOptions
+from .paypal import PayPalClient
 
 
 class DeliveryOptionsList(ListView):
@@ -44,26 +42,24 @@ def basket_update_delivery(request):
         else:
             session['delivery']['delivery_id'] = delivery_type.id
             session.modified = True
-        
 
-        response = JsonResponse(
-            {
-                'total': updated_total_price,
-                'delivery_price':delivery_type.price
-            }
-        )
+        response = JsonResponse({
+            'total': updated_total_price,
+            'delivery_price': delivery_type.price
+        })
         return response
 
 
 @login_required
 def delivery_address(request):
     session = request.session
-    addresses = Address.objects.filter(customer=request.user).order_by('-default')
+    addresses = Address.objects.filter(customer=request.user)\
+        .order_by('-default')
 
     if 'delivery' not in session:
         messages.warning(request, 'Please select delivery option')
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
-    
+
     if addresses.exists():
 
         if 'address' not in session:
@@ -76,8 +72,8 @@ def delivery_address(request):
         return HttpResponseRedirect(reverse('account:addresses'))
 
     return render(
-        request, 
-        'checkout/delivery_address.html', 
+        request,
+        'checkout/delivery_address.html',
         {'addresses': addresses}
     )
 
@@ -89,11 +85,11 @@ def payment_selection(request):
     if not delivery_address:
         messages.warning(request, 'Please select delivery address')
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
-    
-    return render(request, 'checkout/payment_selection.html', 
-        {
-            "PAYPAL_CLIENT_ID": settings.PAYPAL_CLIENT_ID,
-        }
+
+    return render(
+        request,
+        'checkout/payment_selection.html',
+        {"PAYPAL_CLIENT_ID": settings.PAYPAL_CLIENT_ID}
     )
 
 
@@ -128,14 +124,13 @@ def payment_complete(request):
 
     for item in basket:
         OrderItem.objects.create(
-            order_id=order_id, 
-            product=item["product"], 
-            price=item["price"], 
+            order_id=order_id,
+            product=item["product"],
+            price=item["price"],
             quantity=item["qty"]
         )
 
     return JsonResponse({'success': 'Return Something'})
-
 
 
 @login_required

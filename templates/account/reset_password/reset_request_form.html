@@ -11,7 +11,7 @@
 </script>
 {% endif %}
 
-<form class="account-form p-4" method="post" action="{% url 'account:password_reset' %}">
+<form class="account-form" method="post" action="{% url 'account:password_reset' %}">
   <h3 class="mb-4 fw-bold">Forgot your password?</h3>
   <p>Enter your e-mail address to obtain a new password.</p>
   {% if form.errors %}

@@ -26,7 +26,6 @@ class Basket():
         # instantiating basket based on basket_id exist or not
         self.basket = basket
 
-
     def __iter__(self):
         """
         Collect the product_id in the session data to query the database
@@ -39,12 +38,11 @@ class Basket():
         # add to basket product data attr based on filter result
         for product in products:
             basket[str(product.id)]['product'] = product
-        
+
         for item in basket.values():
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['qty']
             yield item
-
 
     def __len__(self):
         """
@@ -52,21 +50,18 @@ class Basket():
         """
         return sum(item['qty'] for item in self.basket.values())
 
-
     def save(self):
         """
-        By default, Django only saves to the session database 
+        By default, Django only saves to the session database
         when the session has been modified
         """
         self.session.modified = True
-
 
     def add(self, product, qty):
         """
         Adding and updating the users basket session data
         """
         product_id = str(product.id)
-
 
         if product_id in self.basket:
             self.basket[product_id]['qty'] = qty
@@ -77,7 +72,6 @@ class Basket():
             }
         self.save()
 
-
     def delete(self, product_id):
         """
         Delete item from session data
@@ -87,19 +81,17 @@ class Basket():
         if product_id in self.basket:
             del self.basket[product_id]
         self.save()
-    
 
     def update(self, product_id, qty):
         """
         Update values in sessions data
         """
-        # type cast 
+        # type cast
         product_id = str(product_id)
 
         if product_id in self.basket:
             self.basket[product_id]['qty'] = qty
             self.save()
-
 
     def clear(self):
         del self.session['basket_id']
@@ -108,11 +100,8 @@ class Basket():
 
         self.save()
 
-
-
     def get_subtotal_price(self):
         return sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
-    
 
     def get_total_price(self):
         subtotal = sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
@@ -126,15 +115,14 @@ class Basket():
         total = subtotal + Decimal(delivery_price)
         return total
 
-
     def get_delivery_price(self):
         delivery_price = 0.00
-        
+
         if 'delivery' in self.session:
             delivery_id = self.session['delivery']['delivery_id']
             delivery_price = DeliveryOptions.objects.get(id=delivery_id).price
         return delivery_price
-      
+
 
     def update_total_price(self, delivery_price=0):
         subtotal = sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())

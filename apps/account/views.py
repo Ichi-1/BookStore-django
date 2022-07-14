@@ -4,47 +4,44 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
-
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
-from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views.generic import (
     CreateView,
     ListView,
+    RedirectView,
+    TemplateView,
     UpdateView,
-    TemplateView, 
-    RedirectView
 )
 
+from apps.account.models import Address, Customer
 from apps.orders.models import Order
-from apps.account.models import Customer, Address
 from apps.store.models import Product
-from .forms import (
-    SignUpForm, 
-    UserAccountUpdateForm, 
-    UserAddressForm
-)
+
+from .forms import SignUpForm, UserAccountUpdateForm, UserAddressForm
 from .mixins import PreventSingUpMixin
 from .token import token_generator
 
+# * Registration section
 
-#* Registration section
 
 class SignUpView(PreventSingUpMixin, SuccessMessageMixin, CreateView):
     form_class = SignUpForm
     template_name = 'account/registration/signup.html'
-    success_message = 'Account was created. Check your email for activation link'
+    success_message = (
+        'Account was created. Check your email for activation link'
+    )
 
     def form_valid(self, form):
-        user = form.save(commit=False)    
+        user = form.save(commit=False)
         user.email = form.cleaned_data['email']
         user.set_password(form.cleaned_data['password'])
-        user.is_active = False 
+        user.is_active = False
         user.save()
         form.send_activation_email(self.request, user)
         return super(SignUpView, self).form_valid(form)
-
 
     def get_success_url(self):
         return reverse('account:login')
@@ -52,7 +49,7 @@ class SignUpView(PreventSingUpMixin, SuccessMessageMixin, CreateView):
 
 class ActivateAccountView(RedirectView):
     url = reverse_lazy('account:success')
-    
+
     def get(self, request, uidb64, token):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
@@ -66,7 +63,10 @@ class ActivateAccountView(RedirectView):
             login(request, user)
             return super().get(request, uidb64, token)
         else:
-            return render(request, 'account/registration/activation_failed.html')
+            return render(
+                request,
+                'account/registration/activation_failed.html'
+            )
 
 
 class SuccessView(TemplateView):
@@ -83,8 +83,7 @@ def deactivate_account(request):
     return redirect('account:deactivate_confirm')
 
 
-
-#* User Dashboard section
+# * User Dashboard section
 
 class UserDashboardView(LoginRequiredMixin, ListView):
     """
@@ -95,26 +94,25 @@ class UserDashboardView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user_id = self.request.user.id
-        orders = Order.objects.filter(user_id=user_id).filter(billing_status=True)
+        orders = Order.objects.filter(user_id=user_id, billing_status=True)
         return orders
 
 
 class UserAccountUpdateView(
-        LoginRequiredMixin, 
-        SuccessMessageMixin, 
-        UpdateView
-    ):
+    LoginRequiredMixin,
+    SuccessMessageMixin,
+    UpdateView
+):
     model = Customer
     form_class = UserAccountUpdateForm
     template_name = 'account/dashboard/update.html'
     success_message = 'Profile info was updated successfuly'
-    
+
     def get_success_url(self):
-        return reverse('account:update', kwargs={'pk':self.object.pk})
+        return reverse('account:update', kwargs={'pk': self.object.pk})
 
 
-
-#* Addresses CRUD section
+# * Addresses CRUD section
 
 class AddressesListView(LoginRequiredMixin, ListView):
     template_name = 'account/dashboard/addresses.html'
@@ -142,19 +140,17 @@ class AddressCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
 
 class AddressUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-    form_class = UserAddressForm 
+    form_class = UserAddressForm
     template_name = 'account/dashboard/address_update.html'
     success_message = 'Address was updated successfuly'
-
 
     def get_object(self):
         customer = self.request.user
         return Address.objects.get(pk=self.kwargs.get('id'), customer=customer)
 
-
     def get_success_url(self):
         return reverse('account:addresses')
-    
+
 
 @login_required
 def delete_address(request, id):
@@ -180,10 +176,9 @@ def set_default(request, id):
     else:
         messages.info(request, 'Address was set as default')
         return redirect('account:addresses')
- 
 
 
-#* Wishlist section
+# * Wishlist section
 
 class WishListView(LoginRequiredMixin, ListView):
     template_name = 'account/dashboard/wish_list.html'
@@ -194,8 +189,7 @@ class WishListView(LoginRequiredMixin, ListView):
         return wishlist
 
 
-
-#TODO this function can remove item from wishlist
+# * this function can remove item from wishlist
 @login_required
 def add_to_wishlist(request, id):
     product = get_object_or_404(Product, id=id)
@@ -203,13 +197,18 @@ def add_to_wishlist(request, id):
 
     if user_wishlist.exists():
         product.users_wishlist.remove(request.user)
-        messages.warning(request, f'«{product.title}» has been removed from your Wish List')
+        messages.warning(
+            request,
+            f'«{product.title}» has been removed from your Wish List'
+        )
     else:
         product.users_wishlist.add(request.user)
-        messages.success(request, f'«{product.title}» added to your Wish List')
+        messages.success(
+            request,
+            f'«{product.title}» added to your Wish List'
+        )
 
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
-      
 
 
 class OrderListView(ListView):
@@ -218,6 +217,5 @@ class OrderListView(ListView):
 
     def get_queryset(self):
         user_id = self.request.user.id
-        orders = Order.objects.filter(user_id=user_id).filter(billing_status=True)
+        orders = Order.objects.filter(user_id=user_id, billing_status=True)
         return orders
-    

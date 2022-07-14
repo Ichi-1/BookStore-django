@@ -89,7 +89,6 @@ class UserAccountUpdateForm(forms.ModelForm):
         model = Customer
         fields = ("email", "name",)
 
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["name"].required = True
@@ -201,29 +200,39 @@ class UserAddressForm(forms.ModelForm):
     class Meta:
         model = Address
         fields = (
-            'full_name', 
-            'phone', 
-            'address_line', 
-            'address_line2', 
-            'town_city', 
+            'full_name',
+            'phone',
+            'address_line',
+            'address_line2',
+            'town_city',
             'postcode'
         )
-    
+
     def __init__(self, *args, **kwargs):
+
         super().__init__(*args, **kwargs)
-        self.fields["full_name"].widget.attrs.update(
-            {"class": "form-control mb-2 account-form", "placeholder": "John Doe"}
-        )
-        self.fields["phone"].widget.attrs.update({"class": "form-control mb-2 account-form", "placeholder": "+123456789"})
-        self.fields["address_line"].widget.attrs.update(
-            {"class": "form-control mb-2 account-form", "placeholder": "1234 Main St"}
-        )
-        self.fields["address_line2"].widget.attrs.update(
-            {"class": "form-control mb-2 account-form", "placeholder": "Apartment or suite"}
-        )
-        self.fields["town_city"].widget.attrs.update(
-            {"class": "form-control mb-2 account-form", "placeholder": "Town, city or state"}
-        )
-        self.fields["postcode"].widget.attrs.update(
-            {"class": "form-control mb-2 account-form", "placeholder": "12345678"}
-        )
+
+        self.fields["full_name"].widget.attrs.update({
+            "class": "form-control mb-2 account-form",
+            "placeholder": "John Doe"
+        })
+        self.fields["phone"].widget.attrs.update({
+            "class": "form-control mb-2 account-form",
+            "placeholder": "+123456789"
+        })
+        self.fields["address_line"].widget.attrs.update({
+            "class": "form-control mb-2 account-form",
+            "placeholder": "1234 Main St"
+        })
+        self.fields["address_line2"].widget.attrs.update({
+            "class": "form-control mb-2 account-form",
+            "placeholder": "Apartment or suite"
+        })
+        self.fields["town_city"].widget.attrs.update({
+            "class": "form-control mb-2 account-form",
+            "placeholder": "Town, city or state"
+        })
+        self.fields["postcode"].widget.attrs.update({
+            "class": "form-control mb-2 account-form",
+            "placeholder": "12345678"
+        })
