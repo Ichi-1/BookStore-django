@@ -1,0 +1,132 @@
+/* Bootstrap Over-ride */
+
+@media (min-width: 1000px){
+    .container{
+        max-width: 1000px;
+        
+    }
+}
+@media (max-width: 1200px){
+    .container{
+        max-width: 100%;
+        padding:0 24px;
+    }
+}
+
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.dropdown-menu {
+    top:58px;
+    left:0px;
+    padding:10px;
+}
+
+.alert-primary {
+    background-color: #E4F1FF;
+}
+
+
+.card-img-top {
+    object-fit: fill; /*this makes the image in src fit to the size specified below*/
+    width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+    height: 100%;
+    min-width: 7vw;
+}
+
+.card {
+    margin-left: 15px;
+}
+
+.card-title{
+    font-weight: bold;
+    word-break: break-all;
+    word-break: break-word;
+
+}
+
+
+
+.btn:focus,
+.btn:active {
+  box-shadow: none !important;
+}
+
+/* Fonts */
+html, body, p, div{
+    letter-spacing: -0.02px;
+    font-family: 'Nunito', sans-serif;
+
+
+}
+.fs12{
+    font-size: 12px;
+}
+.fs15{
+    font-size: 0.9375rem;
+}
+
+.fw300{
+    font-weight: 300;
+}
+.fw500{
+    font-weight: 500;
+}
+
+
+/* Navigation-Main*/
+
+/* xs */
+.logo {
+    width: 49px;
+    height: auto;
+}
+/* sm */
+@media (min-width: 768px) {
+    .logo {
+        width: 49px;
+    }
+}
+/* md */
+@media (min-width: 992px) {
+    .logo {
+        width: 60px;
+    }
+}
+/* lg */
+@media (min-width: 1200px) {
+    .logo {
+        width: 70px;
+    }
+}
+
+/* Footer */
+
+.footer > div > div > ul > li{
+    padding-bottom:8px;
+}
+
+
+/* Dropdown Menu */
+
+.main-section-image {
+    background-image: url('https://images2.alphacoders.com/261/thumb-1920-26102.jpg');
+    background-repeat: no-repeat;
+    color: #fff;
+    background-size:100%;
+}
+
+
+/* Pagination */
+.page-link {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+    box-shadow: none !important;
+  
+}
