@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     # 3rd party
     'crispy_forms',
     'mptt',
+    'cloudinary_storage',
+    'cloudinary',
 
 ]
 
@@ -92,7 +94,6 @@ else:
 }
 
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -113,6 +114,16 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+AUTH_USER_MODEL = 'account.Customer'
+LOGIN_REDIRECT_URL = '/account/dashboard/'
+LOGIN_URL = '/account/login/'
+LOGOUT_REDIRECT_URL = LOGIN_URL
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Static and media settings
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -120,28 +131,20 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+# media files api
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET')
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-AUTH_USER_MODEL = 'account.Customer'
-LOGIN_REDIRECT_URL = '/account/dashboard/'
-LOGIN_URL = '/account/login/'
-LOGOUT_REDIRECT_URL = LOGIN_URL
-
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-
-# settings for stripe api
-# stripe listen --forward-to 127.0.0.1:8000/payment/webhook/
-# os.environ.setdefault('STRIPE_PUBLICK_KEY', STRIPE_PUBLICK_KEY)
 
 
 # PayPal settings
 PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID')
 PAYPAL_CLIENT_SECRET = config('PAYPAL_CLIENT_SECRET')
-
