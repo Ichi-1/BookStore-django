@@ -7,6 +7,6 @@
 -'Read More' btn in Detail Template
 
 
--PostgreSQL (via Docker deployment configuration)
+-PostgreSQL
 -Cache
 
