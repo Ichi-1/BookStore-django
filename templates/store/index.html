@@ -30,13 +30,14 @@
         <div class="col">
           <div class="card border-0" style="display:block;">
             <a class="text-dark text-decoration-none" href="{{ product.get_absolute_url }}">
-
+              
               {% for image in product.product_image.all %}
               {% if image.is_feature %}
               <img class='shadow-lg img-fluid' style="min-width: 7vw; width:155px; height:250px; border-radius:4px"
                 alt="Responsive image" src="{{ image.image.url }}" alt="{{ image.image.alt_text }}">
               {% endif %}
               {% endfor %}
+              
               <div class="card-body px-1 text-center text-muted" style="font-size:17px;">
                 <p class="card-title" style="width: auto;">
                   {% if product.title|length >= 25 %}
@@ -90,6 +91,4 @@
 
   </div>
 
-
-
-  {% endblock %}
+{% endblock %}
