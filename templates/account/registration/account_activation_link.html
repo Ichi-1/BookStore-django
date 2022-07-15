@@ -4,6 +4,6 @@ Hi {{ user.name }},
 Your account has succesfully created. 
 Please click below link to activate your account.
 
-http://{{ ichi1-bookstore.herokuapp.com }}{% url 'account:activate' uidb64=uid token=token %}
+http://ichi1-bookstore.herokuapp.com{% url 'account:activate' uidb64=uid token=token %}
 
 {% endautoescape %}
