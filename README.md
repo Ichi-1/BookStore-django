@@ -1,4 +1,4 @@
-# Demo: https://fast-ocean-38849.herokuapp.com/
+# Demo: [BookStore](https://ichi1-bookstore.herokuapp.com/)
 
 ## TODO List:
 - ~~PostgreSQL conf for prod~~
