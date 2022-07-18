@@ -84,4 +84,5 @@ print(get_random_secret_key())
 - Refactoring ProductDetailView. DRY
 - Login & Security Options (2fa)
 - 'Read More' btn in Detail Template
+- Content Security Policy Settings
 
