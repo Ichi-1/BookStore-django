@@ -16,7 +16,7 @@ class Basket():
         # getting a session object from request object
         self.session = request.session
 
-        # is basket for session exist ?
+        # resotre basket data if session exist
         basket = self.session.get('basket_id')
 
         if 'basket_id' not in request.session:
