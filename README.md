@@ -64,6 +64,7 @@ python3 -m venv venv
 pip install -r requriments
 ```
 Also you need to provide your own .evn variables for SMTP, django app, cloud storage and PayPal.
+
 Getting secret key via django utils:
 ```
 python3 manage.py shell
