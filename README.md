@@ -62,6 +62,8 @@ Ref: C.id < P.category
 python3 -m venv venv
 . venv/bin/activate
 pip install -r requriments
+python3 manage.py migrate
+python3 manage.py runserver
 ```
 Also you need to provide your own .evn variables for SMTP, django app, cloud storage and PayPal.
 
