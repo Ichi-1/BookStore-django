@@ -3,7 +3,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils.encoding import force_str
@@ -107,6 +107,16 @@ class UserAccountUpdateView(
     form_class = UserAccountUpdateForm
     template_name = 'account/dashboard/update.html'
     success_message = 'Profile info was updated successfuly'
+
+    def get(self, request, *args, **kwargs):
+        current_user_pk = request.user.pk
+        update_page_pk = kwargs['pk']
+        
+        if current_user_pk != update_page_pk:
+            return HttpResponse('Unauthorized', status=401)
+        else:
+            return super().get(request, *args, **kwargs)
+        
 
     def get_success_url(self):
         return reverse('account:update', kwargs={'pk': self.object.pk})
