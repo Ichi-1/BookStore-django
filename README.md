@@ -63,7 +63,13 @@ python3 -m venv venv
 . venv/bin/activate
 pip install -r requriments
 ```
-Also you need to provide your own .evn variables for SMTP, django app, cloud storage and PayPal
+Also you need to provide your own .evn variables for SMTP, django app, cloud storage and PayPal.
+Getting secret key via django utils:
+```
+python3 manage.py shell
+from django.core.management.utils import get_random_secret_key
+print(get_random_secret_key())
+```
 
 
 #### TODO List:
