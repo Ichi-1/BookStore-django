@@ -70,29 +70,26 @@ class ProductDetailView(DetailView):
         else:
             in_wish_list = None
 
-        author = ProductSpecificationValue.objects.filter(
-            specification_id=1
-        ).get(product_id=product_id)
 
-        language = ProductSpecificationValue.objects.filter(
-            specification_id=2
-        ).get(product_id=product_id)
+        """ 
+        Hardcode removig - init context data dict based on particular product spec.
+        Using for loop to init - is easy to scale both name and value for any kind of products.
+        Name is always spec name of related type of product.
+        For book - author, language, pages, etc.
+        """
+        product_specification = {}
+        product_specification['in_wish_list'] = in_wish_list
 
-        pages = ProductSpecificationValue.objects.filter(
-            specification_id=3
-        ).get(product_id=product_id)
+        # range based on number of specs
+        for i in range(1,5):
+            name = str(ProductSpecification.objects.get(id=i)).lower()
+            value = str(ProductSpecificationValue.objects.filter(specification_id=i)\
+                .get(product_id=product_id)
+            )
+            product_specification[name] = value
+        
+        print(product_specification)
 
-        isbn = ProductSpecificationValue.objects.filter(
-            specification_id=4
-        ).get(product_id=product_id)
 
-        context.update(
-            {
-                "author": author,
-                "language": language,
-                "pages": pages,
-                "isbn": isbn,
-                "in_wish_list": in_wish_list,
-            }
-        )
+        context.update(product_specification)
         return context
