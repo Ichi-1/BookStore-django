@@ -83,7 +83,7 @@ print(get_random_secret_key())
 - Live Support Chat (Django Channels)
   - Maybe i will start chat app as isolated, autonomous service and when it will be ready - link it with main e-commerce as microservice
 - Searching bar and filters 
-- Refactoring ProductDetailView. DRY
+- ~~Refactoring ProductDetailView. DRY~~
 - Login & Security Options (2fa)
 - 'Read More' btn in Detail Template
 - Content Security Policy Settings
