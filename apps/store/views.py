@@ -1,7 +1,10 @@
 from django.http import Http404
 from django.views.generic import DetailView, ListView
 
-from .models import Category, Product, ProductSpecificationValue
+from .models import (
+    Category, Product, 
+    ProductSpecification, ProductSpecificationValue
+)
 
 
 class HomePageView(ListView):
@@ -69,7 +72,6 @@ class ProductDetailView(DetailView):
             )
         else:
             in_wish_list = None
-
 
         """ 
         Hardcode removig - init context data dict based on particular product spec.
