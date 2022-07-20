@@ -90,6 +90,7 @@ class ProductDetailView(DetailView):
             )
             product_specification[name] = value
         
+        #!
         print(product_specification)
 
 
