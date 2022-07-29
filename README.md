@@ -65,13 +65,47 @@ pip install -r requriments
 python3 manage.py migrate
 python3 manage.py runserver
 ```
-Also you need to provide your own .evn variables for SMTP, django app, cloud storage and PayPal.
+Also **you need to provide your own .evn variables** for: SMTP, Django Secret Key, Cloud Storage, PayPal, PostgreSQL.
 
 Getting secret key via django utils:
 ```
 python3 manage.py shell
 from django.core.management.utils import get_random_secret_key
 print(get_random_secret_key())
+```
+### Environment Variables:
+
+```
+# Cloud Storage
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': cloud_name,
+    'API_KEY': api_key
+    'API_SECRET': secret
+}
+
+# SMTP
+EMAIL_PORT = 
+EMAIL_HOST = 
+EMAIL_HOST_USER = 
+EMAIL_HOST_PASSWORD = 
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+# PayPal 
+PAYPAL_CLIENT_ID = 
+PAYPAL_CLIENT_SECRET = 
+
+# PostgreSQL
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': ,
+        'USER': ,
+        'PASSWORD': ,
+        'HOST': ,
+        'PORT': 
+    }
 ```
 
 
