@@ -61,7 +61,7 @@ Ref: C.id < P.category
 ```
 python3 -m venv venv
 . venv/bin/activate
-pip install -r requriments
+pip install -r requriments.txt
 python3 manage.py migrate
 python3 manage.py runserver
 ```
